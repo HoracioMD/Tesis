@@ -1,0 +1,241 @@
+{% extends 'basetemp.html' %}
+
+			{% block titulo %}
+			<title>Lorenz'63 tres variables</title>
+			{% endblock %}
+
+			{% block contenido %}
+			<!-- start: Content -->
+			<!-- start: Contenido -->
+			<!-- start: Cuerpo -->
+			<div id="content" class="span10">
+			
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="{% url 'Principal' %}">Principal</a> 
+					<i class="icon-angle-right"></i>
+				</li>
+				<li><a href="{% url 'Lorenz63' %}">Lorenz'63 </a></li>
+			</ul>
+			
+			<!-- start: Formulario -->
+			<div class="row-fluid sortable">
+				<div class="box span6">
+					<!-- Cabeza Formulario -->
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Lorenz'63 tres escalas</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<!-- Fin Cabeza Formulario -->
+
+					<!-- Contenido Formulario -->
+					<div class="box-content">
+						<form class="form-horizontal formulario" method="POST" action="{% url 'lorenz3' %}">
+						{% csrf_token %}
+							<fieldset>
+							  <div class="control-group">
+								<!-- label class="control-label" for="focusedInput">Paso de tiempo (Dt)</label -->
+								{{ form.sigma.label_tag }}
+								<div class="controls">
+								  <!-- input class="input-xlarge focused" id="focusedInput" type="text" value="" -->
+								  {{ form.sigma }}
+								</div>
+							  </div>
+							  <div class="control-group">
+								<!-- label class="control-label" for="focusedInput">Paso de tiempo (Dt)</label -->
+								{{ form.rho.label_tag }}
+								<div class="controls">
+								  <!-- input class="input-xlarge focused" id="focusedInput" type="text" value="" -->
+								  {{ form.rho }}
+								</div>
+							  </div>
+							  <div class="control-group">
+								<!-- label class="control-label" for="focusedInput">Paso de tiempo (Dt)</label -->
+								{{ form.beta.label_tag }}
+								<div class="controls">
+								  <!-- input class="input-xlarge focused" id="focusedInput" type="text" value="" -->
+								  {{ form.beta }}
+								</div>
+							  </div>
+							  <div class="control-group">
+								<!-- label class="control-label" for="focusedInput">Paso de tiempo (Dt)</label -->
+								{{ form.observaciones.label_tag }}
+								<div class="controls">
+								  <!-- input class="input-xlarge focused" id="focusedInput" type="text" value="" -->
+								  {{ form.observaciones }}
+								</div>
+							  </div>
+							  <div class="control-group">
+								<!-- label class="control-label" for="focusedInput">Tiempo total (T)</label -->
+								{{ form.desechar.label_tag }}
+								<div class="controls">
+								  <!-- input class="input-xlarge focused" id="focusedInput" type="text" value="" -->
+								  {{ form.desechar }}
+								</div>
+							  </div>
+							    <div class="control-group">
+								<!-- label class="control-label" for="focusedInput">Tiempo total (T)</label -->
+								{{ form.guardar.label_tag }}
+								<div class="controls">
+								  <!-- input class="input-xlarge focused" id="focusedInput" type="text" value="" -->
+								  {{ form.guardar }}
+								</div>
+							  </div>
+
+							  <!-- Botones -->
+							  <div class="form-actions">
+
+								<button type="submit" class="btn btn-primary" id="btnEjecutar" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Ejecutando">Ejecutar</button>
+								<button type="button" value="Refresh Page" class="btn" onClick="window.location.reload()">Refrescar</button>
+							  </div>
+							</fieldset>
+						  </form>
+					</div>
+					<!-- Fin Contenido Formulario -->
+				</div><!--/span-->
+
+				<!-- start: Formulario -->
+			<div class="row-fluid sortable">
+				<div class="row-fluid sortable">	
+				<div class="box span6">
+					<div class="box-header">
+						<h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Tabla de Resultados</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<div id="TablaLorenz">
+              				<table id="TableL" class ="display nowrap">
+              					<thead>
+              						<tr>
+              							<th>T</th><th>X</th><th>Y</th><th>Z</th>
+              						</tr>
+              					</thead>
+              					<tbody>           						
+              					</tbody>
+              				</table>          
+						</div>  
+					</div>
+				</div><!--/span-->
+			</div><!--/row-->
+			<!-- end: Formulario -->
+
+			<div class="row-fluid">
+				<div class="box">
+					<div class="box-header">
+						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Grafica</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<!--grafica-->
+					<div class="box-content">
+						<!-- div id="sincos"  class="center" style="height:300px;" ></div-->
+						<div id="graph" class="center" style="height:300px;" ></div>
+						<p id="hoverdata">Puntos (<span id="x">0</span>, <span id="y">0</span>)</p>
+					</div>
+				</div>
+			</div><!--/row-->
+
+	       </div><!--/.fluid-container-->
+	
+			<!-- end: Content -->
+		</div><!--/#content.span10-->
+
+		{% endblock %}
+	
+		{% block js %}
+
+		<script type="text/javascript">
+
+      	window.onload = function(){
+
+      	//Creacion de la tabla para mostrar los datos
+      	$(document).ready(function() {
+      		$('#TableL').dataTable({
+    			"language": {
+    			  		"emptyTable":  "  ",
+    			  		"infoEmpty" : "Tabla de valores utilizados en el grafico"
+  				  	},
+  				"searching": false,
+  				"scrollY": 466,
+  				//"scrollX": false,
+                "paging": false
+    		});
+        });		
+
+        $('.formulario').submit(function(e){
+
+          //Subleyenda
+          $('button').button({loadingText: 'Espere...'});
+          //save button so we can use later
+          var my_button = $(this).find("button");
+          //give button loading state
+      	  my_button.button('loading');
+
+          e.preventDefault();
+
+          $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+
+            success: function(data) {
+
+          	  //Resetear estado del botton
+              my_button.button('reset');
+              $(".message").fadeIn(0);
+              $(".message").delay(5000).fadeOut('slow');
+
+              //Esconderlo
+              $('#btnEjecutar').hide()    
+
+              //Opciones para el ploteado
+              var options = {
+              	series: {
+              		lines: {show: true },
+              		points: {show: false}
+              	},
+              	grid: {
+              		hoverable: {show: true}
+              	}
+              };	
+
+              //Graficar la funcion con los datos pasados
+              var plot = $.plot($("#graph"), [{label:"X", data:data[0]}, {label:"Y", data:data[1]}, {label:"Z", data:data[2]}],options)
+              
+              //console.log(data)
+
+              //Cargar la tabla
+              $.each(data[3], function (index, value) {
+                  var TableRow = "<tr>";
+                  $.each(value, function (key, val) {
+                      TableRow += "<td>" + val + "</td>";
+                  });
+                  TableRow += "</tr>";
+                 $('#TableL').append(TableRow);
+              });
+            }       
+          })
+        })
+
+        //Coordenadas en el grafico
+		$("#graph").bind("plothover", function (event, pos, item) {
+    		$("#x").text(pos.x.toFixed(2));
+			$("#y").text(pos.y.toFixed(2));
+		});        
+
+      }
+  	</script>
+	<!-- end: JavaScript-->
+	{% endblock %}

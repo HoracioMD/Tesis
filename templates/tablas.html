@@ -1,0 +1,138 @@
+{% extends 'basetemp.html' %}
+
+			{% block titulo %}
+			<title>Datasets almacenados</title>
+			{% endblock %}
+
+			{% block contenido %}
+			<!-- start: Content -->
+			<!-- start: Contenido -->
+			<!-- start: Cuerpo -->
+			<div id="content" class="span10">
+			
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="{% url 'Principal' %}">Principal</a> 
+					<i class="icon-angle-right"></i>
+				</li>
+				<li><a href="{% url 'Tablas' %}">Datasets</a></li>
+			</ul>
+			
+				<!-- start: Formulario -->
+			<div class="row-fluid sortable">
+			{% csrf_token %}
+				<div class="row-fluid sortable">	
+				<div class="box">
+					<div class="box-header">
+						<h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Lorenz'96 datasets almacenados en el sistema</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<div id="Tablas">
+              				<table id="TableL" class="table table-striped table-bordered display compact" cellspacing="0" width="100%">
+              					<thead>
+              						<tr>
+              							<th>Nombre</th>         							
+              							<th>Longitud Tot.</th>
+              							<th>Pts. a graficar</th>
+              							<th>Fecha</th>
+              							<th>Variables (N)</th>
+              							<th>Forzado (F)</th>
+              							<th>Boton</th>
+              						</tr>
+              					</thead>
+              					<tbody>
+              						{% for value in list_l96I.items %}
+              						<tr>
+                                        <td class="nombre">{{ value.1.nombre }}</td>
+                                        <td class="longitud">{{ value.1.longitud }}</td>
+                                        <td class="obs">{{ value.1.obs }}</td>
+                                        <td class="fecha">{{ value.1.fecha }}</td>
+                                        <td class="n">{{ value.1.n }}</td>
+                                        <td class="forzado">{{ value.1.forzado }}</td>
+                                        <td>
+                                            <div class='btn-group' id="btns-action" data-filename="{{ value.0 }}">
+                                              <button data-url="{% url 'graph_l96I_dataset' %}" class="btn btn-primary" id="btnEjecutar" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Graficando">Graficar</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+              						{% endfor %}           						
+              					</tbody>
+              				</table>          
+						</div> 
+					</div>
+				</div><!--/span-->
+			    </div><!--/row-->
+			<!-- end: Formulario -->
+
+			<div class="row-fluid">
+				<div class="box">
+					<div class="box-header">
+						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Grafica</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<!--grafica-->
+					<div class="box-content">
+						<!-- div id="sincos"  class="center" style="height:300px;" ></div-->
+						<div id="graph" class="center" style="height:300px;" ></div>
+						<p id="hoverdata">Puntos (<span id="x">0</span>, <span id="y">0</span>)</p>
+					</div>
+				</div>
+			</div><!--/row-->
+
+	       </div><!--/.fluid-container-->
+		</div><!--/#content.span10-->
+
+		{% endblock %}
+	
+		{% block js %}
+
+		<script type="text/javascript">	
+
+
+			$(document).ready(function() {
+
+				$('#TableL tbody').on('click', '#btnEjecutar', function(){
+				
+					var direccion = $(this).data('url')
+					var filename = $(this).parents('div').data('filename')
+					var token = '{{ csrf_token }}'
+
+					$.ajax({
+						headers: { "X-CSRFToken": token },
+						url: direccion,
+						type: 'POST',
+						data: {'filename' : filename}}).done(function(data){
+							//console.log(data)
+
+							//Grafica
+							var options = {
+								series: {
+									lines: {show: true },
+									points: {show: false}
+								},
+              					grid: {
+              						hoverable: {show: true}
+              					},
+              				};	
+              				var plot = $.plot($("#graph"), [{label:"X", data:data}], options)
+
+              
+						})
+						
+				$("#graph").bind("plothover", function (event, pos, item) {
+    			$("#x").text(pos.x.toFixed(2));
+				$("#y").text(pos.y.toFixed(2)); });        
+
+			})
+		})
+  		</script>
+
+		{% endblock %}
