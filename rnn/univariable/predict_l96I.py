@@ -2,6 +2,7 @@ from . import lstm
 import time
 import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
 
 class PredictL96I():
 
@@ -13,8 +14,11 @@ class PredictL96I():
         self.X_train, self.y_train, self.X_test, self.y_test = lstm.load_data('mycsv.csv', self.seq_len, False)
         # Soluciona el problema de hilos feed dict lstm_:0 etc
         import keras.backend.tensorflow_backend
+        config = tf.ConfigProto()
+        config.intra_op_parallelism_threads = 0
+        config.inter_op_parallelism_threads = 0
         if keras.backend.tensorflow_backend._SESSION:
-           import tensorflow as tf
+           #import tensorflow as tf
            tf.reset_default_graph()
            keras.backend.tensorflow_backend._SESSION.close()
            keras.backend.tensorflow_backend._SESSION = None
@@ -25,7 +29,7 @@ class PredictL96I():
         model.fit(
             self.X_train,
             self.y_train,
-            batch_size=512,
+            batch_size=200,
             nb_epoch=self.epochs,
             validation_split=0.05)
         predicted = lstm.predict_point_by_point(model, self.X_test)
@@ -36,4 +40,3 @@ class PredictL96I():
         resultado = np.array((time, predicted, self.y_test)).T
 
         return (predicho.tolist(), verdadero.tolist(), resultado.tolist())
-
