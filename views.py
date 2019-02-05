@@ -34,4 +34,5 @@ def lorenz63(request):
 	return render(request,'lorenz63.html', {'form': FormLorenz63()})
 
 def univarLSTM(request):
-	return render(request, 'univarLSTM.html', {'form': FormUnivar()})
+	objeto = NCDF4()
+	return render(request, 'univarLSTM.html', {'list_l96I': objeto.return_list_nc('l96I'), 'form': FormUnivar()})

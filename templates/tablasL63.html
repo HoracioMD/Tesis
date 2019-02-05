@@ -16,7 +16,7 @@
 					<a href="{% url 'Principal' %}">Principal</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="{% url 'Tablas' %}">Datasets</a></li>
+				<li><a href="{% url 'Tablas' %}">Datasets L63</a></li>
 			</ul>
 			
 				<!-- start: Formulario -->
@@ -43,7 +43,7 @@
               							<th>Beta</th>
               							<th>Sigma</th>
               							<th>Rho</th>
-              							<th>Boton</th>
+              							<th>Botón</th>
               						</tr>
               					</thead>
               					<tbody>
@@ -74,7 +74,7 @@
 			<div class="row-fluid">
 				<div class="box">
 					<div class="box-header">
-						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Grafica</h2>
+						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Gráfica</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
 							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
@@ -125,7 +125,7 @@
               					}
               				};
               				//Graficar la funcion con los datos pasados
-              				var plot = $.plot($("#graph"), [{label:"X", data:data[0]}, {label:"Y", data:data[1]}, {label:"Z", data:data[2]}],options)
+              				var plot = $.plot($("#graph"), [{label:"X Obs.", data:data[0]}, {label:"Y Obs.", data:data[1]}, {label:"Z Obs.", data:data[2]}],options)
               			})
 						
 				$("#graph").bind("plothover", function (event, pos, item) {

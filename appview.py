@@ -79,14 +79,21 @@ def l96predict(request):
 	send = False
 	if request.method == "POST":
 		form = FormUnivar(request.POST)
+		#print(form)
 		if form.is_valid():
 			send = True
+			nombre = form.cleaned_data["nombre"]
 			epocas = form.cleaned_data["epocas"]
 			ventana = form.cleaned_data["ventana"]
-			guardar = form.cleaned_data["guardar"]
+			dropout = form.cleaned_data["dropout"]
+			lrate = form.cleaned_data["lrate"]
+			activar = form.cleaned_data["activar"]
+			optimizar = form.cleaned_data["optimizar"]
+			perdidas = form.cleaned_data["perdidas"]
+			#guardar = form.cleaned_data["guardar"]
 
-			epocas, ventana, guardar
-			object_predictl96I = PredictL96I(epocas, ventana, guardar)
+			nombre, epocas, ventana, dropout, lrate, activar, optimizar, perdidas
+			object_predictl96I = PredictL96I(nombre, epocas, ventana, dropout, lrate, activar, optimizar, perdidas)
 			array = object_predictl96I.start_prediction()
 			#[arrayX, arrayY] = object_l96I.l96I(desechar)
 			return HttpResponse(
