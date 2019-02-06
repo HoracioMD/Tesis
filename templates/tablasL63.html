@@ -16,7 +16,7 @@
 					<a href="{% url 'Principal' %}">Principal</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="{% url 'Tablas' %}">Datasets L63</a></li>
+				<li><a href="{% url 'Tablas63' %}">Datasets L63</a></li>
 			</ul>
 			
 				<!-- start: Formulario -->
@@ -43,7 +43,7 @@
               							<th>Beta</th>
               							<th>Sigma</th>
               							<th>Rho</th>
-              							<th>Botón</th>
+              							<th>Acción</th>
               						</tr>
               					</thead>
               					<tbody>
@@ -100,6 +100,14 @@
 
 
 			$(document).ready(function() {
+
+    			$('#TableL').dataTable({
+    
+  					"searching": false,
+  					"scrollY": 250,
+                	"paging": false,
+                	"info": false
+    			});
 
 				$('#TableL tbody').on('click', '#btnEjecutar', function(){
 				

@@ -42,7 +42,7 @@
               							<th>Fecha</th>
               							<th>Variables (N)</th>
               							<th>Forzado (F)</th>
-              							<th>Botón</th>
+              							<th>Acción</th>
               						</tr>
               					</thead>
               					<tbody>
@@ -98,6 +98,15 @@
 
 
 			$(document).ready(function() {
+
+
+    			$('#TableL').dataTable({
+    
+  					"searching": false,
+  					"scrollY": 250,
+                	"paging": false,
+                	"info": false
+    			});
 
 				$('#TableL tbody').on('click', '#btnEjecutar', function(){
 				

@@ -24,6 +24,10 @@ def tablas2(request):
 	objeto = NCDF4()
 	return render(request, 'tablasL96II.html', {'list_l96II': objeto.return_list2_nc('l96II')})
 
+def analisisPredL96I(request):
+	objeto = NCDF4()
+	return render(request, 'l96Ianalisis.html', {'list_l96Ipred': objeto.return_list_pred_nc('l96Ipred')})
+
 def lorenz(request):
 	return render(request,'lorenz.html', {'form': FormLorenz96I()})
 
@@ -32,6 +36,10 @@ def lorenz2(request):
 
 def lorenz63(request):
 	return render(request,'lorenz63.html', {'form': FormLorenz63()})
+
+def hiperparam(request):
+	objeto = NCDF4()
+	return render(request,'parameter.html', {'list_l96I': objeto.return_list_nc('l96I'), 'form': FormUnivar()})
 
 def univarLSTM(request):
 	objeto = NCDF4()

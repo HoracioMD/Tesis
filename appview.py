@@ -123,3 +123,11 @@ def graph_l96II_dataset(request):
 	return HttpResponse(
 	json.dumps(graficar), 
 	content_type="application/json")
+
+def graph_l96Ipred_dataset(request):
+	filename = request.POST.get('filename')
+	nc = NCDF4()
+	graficar = nc.extract_l96Ipred_data(filename)
+	return HttpResponse(
+	json.dumps(graficar), 
+	content_type="application/json")

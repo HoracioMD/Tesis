@@ -18,6 +18,7 @@ class FormUnivar(forms.Form):
 		widget=forms.TextInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor',
+			'id': 'epoch',
 			'readonly': 'readonly'
 			})
 		)
@@ -28,6 +29,7 @@ class FormUnivar(forms.Form):
 		widget=forms.TextInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor',
+			'id': 'window',
 			'readonly': 'readonly'
 			})
 		)
@@ -38,6 +40,7 @@ class FormUnivar(forms.Form):
 		widget=forms.TextInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor',
+			'id': 'drop',
 			'readonly': 'readonly'
 			})
 		)
@@ -48,6 +51,7 @@ class FormUnivar(forms.Form):
 		widget=forms.TextInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor',
+			'id':'rate',
 			'readonly': 'readonly'
 			})
 		)
@@ -58,11 +62,13 @@ class FormUnivar(forms.Form):
     ('tanh', 'Tang. Hiperb.'))
 	activar = forms.ChoiceField(
 		initial='linear',
-		widget=forms.Select, 
+		#widget=forms.Select
+		#(attrs={'id':'activation', 'class':'form-control '}), 
+		widget=forms.RadioSelect(attrs={'id':'activation'}),
 		choices=ACTIVATION, 
 		required=True, 
 		label='Función de activación',
-		disabled=True)
+		disabled=False)
 
 	OPTIMIZATION = (
 	('adam', 'ADAM'),
@@ -70,11 +76,13 @@ class FormUnivar(forms.Form):
     ('sgd','Stochastic gradient descent'))
 	optimizar = forms.ChoiceField(
 		initial='adam',
-		widget=forms.Select, 
+		#widget=forms.Select
+		#(attrs={'id':'optimization', 'class':'form-control '}),
+		widget=forms.RadioSelect(attrs={'id':'optimization'}), 
 		choices=OPTIMIZATION, 
 		required=True, 
 		label='Algoritmo de optimización',
-		disabled=True)
+		disabled=False)
 
 	LOSS = (
 	('mse', 'Mean Squared Error'),
@@ -82,8 +90,10 @@ class FormUnivar(forms.Form):
     ('mape','Mean Absolute Percentage Error'))
 	perdidas = forms.ChoiceField(
 		initial='mse',
-		widget=forms.Select, 
+		#widget=forms.Select
+		#(attrs={'id':'loss', 'class':'form-control '}), 
+		widget=forms.RadioSelect(attrs={'id':'loss'}),
 		choices=LOSS, 
 		required=True, 
 		label='Función de perdida',
-		disabled=True)
+		disabled=False)

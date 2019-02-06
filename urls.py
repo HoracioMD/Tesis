@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from Project.views import principal, lorenz, lorenz2, lorenz63, univarLSTM, tablas, tablas63, tablas2
+from Project.views import principal, lorenz, lorenz2, lorenz63, univarLSTM, tablas, tablas63, tablas2, analisisPredL96I, hiperparam
 import Project.appview as app
 
 urlpatterns = [
@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^lorenz2/$', lorenz2, name='Lorenz96II'),
     url(r'^lorenz63/$', lorenz63, name='Lorenz63'),        
     url(r'^predictUnivar/$', univarLSTM, name='UnivarLSTM'),
+    url(r'^analisisL96I/$', analisisPredL96I, name='AnalisisPredL96I'),
+    url(r'^hiperparameters/$', hiperparam, name='Hiperparametros'),
 
     url(r'^form/$', app.l96I, name='lorenz1'),
     url(r'^form2/$', app.l96II, name='lorenz2'),
@@ -34,5 +36,6 @@ urlpatterns = [
     url(r'^form4/$', app.l96predict, name='lorenz96pred'),
     url(r'^form5/$', app.graph_l96I_dataset, name='graph_l96I_dataset'),
     url(r'^form6/$', app.graph_l63_dataset, name='graph_l63_dataset'),
-    url(r'^form7/$', app.graph_l96II_dataset, name='graph_l96II_dataset')    
+    url(r'^form7/$', app.graph_l96II_dataset, name='graph_l96II_dataset'),
+    url(r'^form8/$', app.graph_l96Ipred_dataset, name='graph_l96Ipred_dataset')      
 ]
