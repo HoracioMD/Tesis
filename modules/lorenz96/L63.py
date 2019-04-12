@@ -75,7 +75,7 @@ class Lorenz63():
         ysAux = np.empty((self.stepTot,))
         zsAux = np.empty((self.stepTot,))
 
-        xsAux[0], ysAux[0], zsAux[0] = (0., 1., 1.05)
+        xsAux[0], ysAux[0], zsAux[0] = (17.36144399, 11.64080574, 46.40741375)
         auxCont = 0
         
         #Puntos a graficar. 

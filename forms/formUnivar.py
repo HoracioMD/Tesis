@@ -34,7 +34,7 @@ class FormUnivar(forms.Form):
 			})
 		)
 	dropout = forms.FloatField(
-		initial="0.2",
+		initial="0.1",
 		required=True,
 		label="Dropout (evitar sobreajuste)", 
 		widget=forms.TextInput(attrs={

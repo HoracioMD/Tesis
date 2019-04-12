@@ -16,7 +16,7 @@
 					<a href="{% url 'Principal' %}">Principal</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="{% url 'Hiperparametros' %}">Hiperparametros</a></li>
+				<li><a href="{% url 'Hiperparametros' %}">Hiperparametros L'96 I</a></li>
 			</ul>
 
 				<!-- start: Formulario -->
@@ -68,6 +68,29 @@
 				</div><!--/span-->
 			    </div><!--/row-->
 			<!-- end: Formulario -->
+			</div>
+
+					<!-- start: Formulario -->
+			<div class="row-fluid sortable">
+			{% csrf_token %}
+
+			<div class="row-fluid">
+				<div class="box">
+					<div class="box-header">
+						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Gráfica</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<!--grafica-->
+					<div class="box-content">
+						<!-- div id="sincos"  class="center" style="height:300px;" ></div-->
+						<div id="graph" class="center" style="height:200px;" ></div>
+						<p id="hoverdata">Puntos (<span id="x">0</span>, <span id="y">0</span>)</p>
+					</div>
+				</div>
+			</div><!--/row-->
 			</div>
 
 			<div class="row-fluid">
@@ -124,14 +147,15 @@
 					<!-- Fin Contenido Formulario -->
 				</div><!--/span-->
 			</div>
-				<!-- start: Formulario -->
+
+			<!-- start: Formulario -->
 			<div class="row-fluid sortable">
 			{% csrf_token %}
 
 			<div class="row-fluid">
 				<div class="box">
 					<div class="box-header">
-						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Gráfica</h2>
+						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Resultados</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
 							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
@@ -140,12 +164,13 @@
 					<!--grafica-->
 					<div class="box-content">
 						<!-- div id="sincos"  class="center" style="height:300px;" ></div-->
-						<div id="graph" class="center" style="height:300px;" ></div>
-						<p id="hoverdata">Puntos (<span id="x">0</span>, <span id="y">0</span>)</p>
+						<div id="graph2" class="center" style="height:200px;" ></div>
+						<p id="hoverdata">Puntos (<span id="xx">0</span>, <span id="yy">0</span>)</p>
 					</div>
 				</div>
 			</div><!--/row-->
 			</div>
+		
 		</div>
 
 
@@ -266,7 +291,7 @@
               					hoverable: {show: true}
               				},
               			};	
-              			var plot = $.plot($("#graph"), [{label:"Predicho", data:data[0]}, {label:"Observado", data:data[1]}],options)
+              			var plot = $.plot($("#graph2"), [{label:"Predicho", data:data[0]}, {label:"Observado", data:data[1]}],options)
               			//$('#TablaLorenz').append(data);
               			//console.log(data)
             		},
@@ -277,12 +302,13 @@
 
             		}       
           		})
+          		$("#graph2").bind("plothover", function (event, pos, item) {
+    			$("#xx").text(pos.x.toFixed(2));
+				$("#yy").text(pos.y.toFixed(2));
+				});   
         	})
 
-			$("#graph").bind("plothover", function (event, pos, item) {
-    		$("#x").text(pos.x.toFixed(2));
-			$("#y").text(pos.y.toFixed(2));
-		});   
+			
 	})
 	}
   	</script>

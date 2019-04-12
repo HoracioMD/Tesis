@@ -1,0 +1,30 @@
+{% extends 'basetemp.html' %}
+
+			{% block titulo %}
+			<title>Predicción L96 II</title>
+			{% endblock %}
+
+			{% block contenido %}
+			<!-- start: Content -->
+			<!-- start: Contenido -->
+			<!-- start: Cuerpo -->
+
+			<div id="content" class="tdStyle">
+			
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="{% url 'Principal' %}">Principal</a> 
+					<i class="icon-angle-right"></i>
+				</li>
+				<li><a href="{% url 'Multivar2LSTM' %}">Predicción multivariable</a></li>
+			</ul>
+
+			
+		{% endblock %}
+	
+		{% block js %}
+	
+
+	<!-- end: JavaScript-->
+{% endblock %}

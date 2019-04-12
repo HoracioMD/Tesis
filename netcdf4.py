@@ -30,6 +30,33 @@ class NCDF4():
 
         return (true.tolist(), pred.tolist(), todos.tolist(), MAE, MSE, RMSE, R2)
 
+    def extract_l63pred_data(self, filename):
+        dir = self.dir_base + "l63pred/" + str(filename) + ".nc"
+        directory = os.fsencode(os.path.join(os.path.dirname(__file__),dir))
+        dataset_nc4 = self.return_dataset(str(directory, 'utf-8'), 'r')
+        group = dataset_nc4.groups['l63pred']
+        observationX = group.variables['ObservadoX'][:]
+        predictionX = group.variables['PredichoX'][:]
+        observationY = group.variables['ObservadoY'][:]
+        predictionY = group.variables['PredichoY'][:]
+        observationZ = group.variables['ObservadoZ'][:]
+        predictionZ = group.variables['PredichoZ'][:]
+        tiempo = group.variables['Tiempo'][:]
+        
+        trueX = np.array((tiempo, observationX)).T
+        predX = np.array((tiempo, predictionX)).T
+        trueY = np.array((tiempo, observationY)).T
+        predY = np.array((tiempo, predictionY)).T
+        trueZ = np.array((tiempo, observationZ)).T
+        predZ = np.array((tiempo, predictionZ)).T   
+        todos = np.array((tiempo, observationX, predictionX, observationY, predictionY, predictionZ, observationZ)).T
+        MAE = group.MAE
+        MSE = group.MSE
+        RMSE = group.RMSE
+        R2 = group.R2
+
+        return ((trueX.tolist())[:500], predX.tolist()[:500], trueY.tolist()[:500], predY.tolist()[:500], trueZ.tolist()[:500], predZ.tolist()[:500], todos.tolist(), MAE, MSE, RMSE, R2)
+
     def extract_l96I_data(self, filename):
         dir = self.dir_base + "l96I/" + str(filename) + ".nc"
         directory = os.fsencode(os.path.join(os.path.dirname(__file__),dir))
@@ -139,6 +166,31 @@ class NCDF4():
         return list_files
 
     def return_list_pred_nc(self, model):
+        list_files = {} 
+        dir = self.dir_base + str(model) + "/"
+        directory = os.fsencode(os.path.join(os.path.dirname(__file__),dir))
+        #print(str(directory))
+        for file in self._iterate_folder(directory):
+            filename = os.fsdecode(file)
+            if filename.endswith(".nc"):
+                dataset = self.return_dataset(str(directory, 'utf-8')+str(filename), 'r')
+                name = filename.split(".",1)[0]
+                grp = dataset.groups[str(model)]
+                list_files[str(name)] = {
+                    'nombre': grp.nombre,
+                    'fecha': grp.fecha,
+                    'dataset': grp.dset,
+                    'FAct' : grp.Factivacion,
+                    'FOpt' : grp.Foptimizacion,
+                    'FLoss': grp.Fperdida,
+                    'MAE' : grp.MAE,
+                    'MSE' : grp.MSE,
+                    'RMSE' : grp.RMSE,
+                    'R2' : grp.R2
+                }
+        return list_files
+
+    def return_list_pred63_nc(self, model):
         list_files = {} 
         dir = self.dir_base + str(model) + "/"
         directory = os.fsencode(os.path.join(os.path.dirname(__file__),dir))

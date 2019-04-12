@@ -2,11 +2,14 @@ from django.shortcuts import render, HttpResponse
 from .modules.lorenz96.L96I import Lorenz96I
 from .modules.lorenz96.L96II import Lorenz96II
 from .modules.lorenz96.L63 import Lorenz63
-from .rnn.univariable.predict_l96I import PredictL96I
+#from .rnn.univariable.predict_l96I import PredictL96I
+from .rnn.univariable.Auxpredict_l96I import PredictL96I
+from .rnn.multivariable.predict_l63 import PredictL63
 from .forms.formL96I import FormLorenz96I
 from .forms.formL96II import FormLorenz96II
 from .forms.formL63 import FormLorenz63
 from .forms.formUnivar import FormUnivar
+from .forms.formMultivar import FormMultivar
 from django.template import RequestContext
 from django.template.defaulttags import csrf_token
 import json
@@ -100,6 +103,31 @@ def l96predict(request):
 			json.dumps(array),
             content_type="application/json")
 
+def l63predict(request):
+	send = False
+	if request.method == "POST":
+		form = FormUnivar(request.POST)
+		#print(form)
+		if form.is_valid():
+			send = True
+			nombre = form.cleaned_data["nombre"]
+			epocas = form.cleaned_data["epocas"]
+			ventana = form.cleaned_data["ventana"]
+			dropout = form.cleaned_data["dropout"]
+			lrate = form.cleaned_data["lrate"]
+			activar = form.cleaned_data["activar"]
+			optimizar = form.cleaned_data["optimizar"]
+			perdidas = form.cleaned_data["perdidas"]
+			#guardar = form.cleaned_data["guardar"]
+
+			nombre, epocas, ventana, dropout, lrate, activar, optimizar, perdidas
+			object_predictl96I = PredictL63(nombre, epocas, ventana, dropout, lrate, activar, optimizar, perdidas)
+			array = object_predictl96I.start_prediction()
+			#[arrayX, arrayY] = object_l96I.l96I(desechar)
+			return HttpResponse(
+			json.dumps(array),
+            content_type="application/json")
+
 def graph_l96I_dataset(request):
 	filename = request.POST.get('filename')
 	nc = NCDF4()
@@ -128,6 +156,14 @@ def graph_l96Ipred_dataset(request):
 	filename = request.POST.get('filename')
 	nc = NCDF4()
 	graficar = nc.extract_l96Ipred_data(filename)
+	return HttpResponse(
+	json.dumps(graficar), 
+	content_type="application/json")
+
+def graph_l63pred_dataset(request):
+	filename = request.POST.get('filename')
+	nc = NCDF4()
+	graficar = nc.extract_l63pred_data(filename)
 	return HttpResponse(
 	json.dumps(graficar), 
 	content_type="application/json")

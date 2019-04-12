@@ -5,28 +5,28 @@ class FormLorenz96I(forms.Form):
 		label="Constante forzada (F)", 
 		widget=forms.TextInput(attrs={
 			'class':'form-control ',
-			'placeholder': 'Valor'
+			'placeholder': 'Mas grande, mas caótico el sistema'
 			})
 		)
 	x_small_scale = forms.IntegerField(
-		label="Cantidad de variables (N)", 
+		label="Cantidad de variables (X)", 
 		widget=forms.TextInput(attrs={
 			'class':'form-control ',
-			'placeholder': 'Valor'
+			'placeholder': 'Valor aconsejable: 12'
 			})
 		)
 	observaciones = forms.IntegerField(
 		label="Observaciones a dibujar", 
 		widget=forms.TextInput(attrs={
 			'class':'form-control ',
-			'placeholder': 'Valor'
+			'placeholder': 'Cantidad de valores a plotear'
 			})
 		)
 	desechar = forms.IntegerField(
-		label="Observaciones a desechar", 
+		label="Total de observaciones a generar", 
 		widget=forms.TextInput(attrs={
 			'class':'form-control ',
-			'placeholder': 'Valor'
+			'placeholder': 'Minimo 2000 valores'
 			})
 		)
 	PART_CHOICES = (

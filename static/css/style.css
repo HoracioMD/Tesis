@@ -3005,3 +3005,8 @@ ul.messagesList li span.date {
 .navbar .brand{
 	font-size: 35px;
 }
+.tdStyle{
+	background:url('../img/humanos_construccion.jpg');
+	background-repeat:no-repeat;
+	background-size:100%;
+}

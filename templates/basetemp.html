@@ -90,29 +90,40 @@
 						<li>
 							<a class="dropmenu" href="#"><i class="icon-hdd"></i><span class="hidden-tablet"> Generar Datos</span><span class="label label-important"> 3 </span></a>
 							<ul>
-								<li><a class="submenu" href="{% url 'Lorenz96' %}"><i class="icon-file-alt"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
-								<li><a class="submenu" href="{% url 'Lorenz96II' %}"><i class="icon-file-alt"></i><span class="hidden-tablet"> Lorenz'96 II escalas</span></a></li>
-								<li><a class="submenu" href="{% url 'Lorenz63' %}"><i class="icon-file-alt"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
+								<li><a class="submenu" href="{% url 'Lorenz96' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
+								<li><a class="submenu" href="{% url 'Lorenz96II' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 II escalas</span></a></li>
+								<li><a class="submenu" href="{% url 'Lorenz63' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
 							</ul>	
 						</li>
 						<li>
 							<a class="dropmenu" href="#"><i class="icon-folder-open-alt"></i><span class="hidden-tablet"> Tablas</span><span class="label label-important"> 3 </span></a>
 							<ul>
-								<li><a class="submenu" href="{% url 'Tablas' %}"><i class="icon-table"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
-								<li><a class="submenu" href="{% url 'Tablas2'%}"><i class="icon-table"></i><span class="hidden-tablet"> Lorenz'96 II escalas</span></a></li>
-								<li><a class="submenu" href="{% url 'Tablas63' %}"><i class="icon-table"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
+								<li><a class="submenu" href="{% url 'Tablas' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
+								<li><a class="submenu" href="{% url 'Tablas2'%}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 II escalas</span></a></li>
+								<li><a class="submenu" href="{% url 'Tablas63' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
 							</ul>	
 						</li>
 						<li>
-							<a class="dropmenu" href="#"><i class="icon-random"></i><span class="hidden-tablet"> Predicción</span><span class="label label-important"> 3 </span></a>
+							<a class="dropmenu" href="#"><i class="icon-random"></i><span class="hidden-tablet"> Predicción</span><span class="label label-important"> 2 </span></a>
 							<ul>
-								<li><a class="submenu" href="{% url 'UnivarLSTM' %}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
-								<li><a class="submenu" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet"> Lorenz'96 II escalas</span></a></li>
-								<li><a class="submenu" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
+								<li><a class="submenu" href="{% url 'UnivarLSTM' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
+								<li><a class="submenu" href="{% url 'MultivarLSTM' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
 							</ul>	
-						</li>			
-						<li><a href="{% url 'Hiperparametros' %}"><i class="icon-wrench"></i><span class="hidden-tablet"> Hiperparametros</span></a></li>
-						<li><a href="{% url 'AnalisisPredL96I' %}"><i class="icon-cogs"></i><span class="hidden-tablet"> Analisis</span></a></li>			
+						</li>
+						<li>
+							<a class="dropmenu" href="#"><i class="icon-wrench"></i><span class="hidden-tablet"> Hiperparametros</span><span class="label label-important"> 2 </span></a>
+							<ul>
+								<li><a class="submenu" href="{% url 'Hiperparametros' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
+								<li><a class="submenu" href="{% url 'Hiperparametros63' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
+							</ul>	
+						</li>
+						<li>
+							<a class="dropmenu" href="#"><i class="icon-cogs"></i><span class="hidden-tablet"> Análisis</span><span class="label label-important"> 2 </span></a>
+							<ul>
+								<li><a class="submenu" href="{% url 'AnalisisPredL96I' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
+								<li><a class="submenu" href="{% url 'AnalisisPredL63' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
+							</ul>	
+						</li>		
 					</ul>
 				</div>
 			</div>
