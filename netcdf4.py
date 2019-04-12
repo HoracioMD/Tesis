@@ -28,7 +28,7 @@ class NCDF4():
         RMSE = group.RMSE
         R2 = group.R2
 
-        return (true.tolist(), pred.tolist(), todos.tolist(), MAE, MSE, RMSE, R2)
+        return (true.tolist()[:500], pred.tolist()[:500], todos.tolist()[:500], MAE, MSE, RMSE, R2)
 
     def extract_l63pred_data(self, filename):
         dir = self.dir_base + "l63pred/" + str(filename) + ".nc"
