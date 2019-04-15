@@ -160,7 +160,7 @@
 					<div class="box-content">
 						<!-- div id="sincos"  class="center" style="height:300px;" ></div-->
 						<div id="graph2" class="center" style="height:200px;" ></div>
-						<p id="hoverdata">Puntos (<span id="x">0</span>, <span id="y">0</span>)</p>
+						<p id="hoverdata">Puntos (<span id="xx">0</span>, <span id="yy">0</span>)</p>
 					</div>
 				</div>
 			</div><!--/row-->
@@ -305,8 +305,8 @@
         	})
 
 			$("#graph2").bind("plothover", function (event, pos, item) {
-    		$("#x").text(pos.x.toFixed(2));
-			$("#y").text(pos.y.toFixed(2));
+    		$("#xx").text(pos.x.toFixed(2));
+			$("#yy").text(pos.y.toFixed(2));
 		});   
 	})
 	}

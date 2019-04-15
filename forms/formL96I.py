@@ -9,7 +9,7 @@ class FormLorenz96I(forms.Form):
 			})
 		)
 	x_small_scale = forms.IntegerField(
-		label="Cantidad de variables (X)", 
+		label="Cantidad de variables (N)", 
 		widget=forms.TextInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor aconsejable: 12'
