@@ -1,0 +1,66 @@
+{% extends 'basetemp.html' %}
+{% load static %}
+
+			{% block titulo %}
+			<title>Principal</title>
+			{% endblock %}
+
+			{% block contenido %}
+			<!-- start: Content -->
+			<!-- start: Contenido -->
+			<!-- start: Cuerpo -->
+
+		<div id="content" class="span10">
+				
+			<!-- icono principal -->		
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="{% url 'Principal' %}">Inicio</a> 
+				</li>
+			</ul>
+			<!-- icono ayuda -->
+			<div class="help">			
+					<i class="icon-lightbulb"><a class="trigger_popup_fricc">Leeme</a></i>
+			</div>
+
+			<!-- ventana emergente de ayuda -->
+			<div class="hover_bkgr_fricc">
+    			<span class="helper"></span>
+    			<div>
+        			<div class="popupCloseButton">X</div>
+        			<h4>Fundamentación</h4>
+        			<p align="justify">La asimilación de datos es una técnica que permite combinar estadísticamente la información de mediciones de diferentes instrumentos con la información de un modelo matemático que describa la evolución del sistema que se está analizando. De esta manera, combinando diversas fuentes de información permite mejorar significativamente la calidad del dato procesado en los casos en los cuales las mediciones sean parciales o tengan algún tipo de inconveniente, datos espurios, ruido, errores significativos, etc. Un ejemplo de ello es la técnica del filtro de Kalman que combina óptimamente observaciones con un modelo dinámico teniendo en cuenta los errores de ambos y determinando la media y la covarianza de esta combinación; el resultado se denomina análisis.</p>
+        			<p align="justify">Debido a la gran cantidad de información que se maneja hoy en día, está cada vez adquiere mayor importancia para la toma de decisiones. Toda esa información generalmente es recopilada por sistemas de asimilación de datos, y se encuentra almacenada en grandes bases de datos. Sin embargo, la manipulación de la misma puede llegar a ser una tarea bastante tediosa, la cual vale destacar que no está exenta de errores.</p>
+        			<p align="justify">Una de las técnicas más prometedoras surgidas en los últimos años destinada a la manipulación de los datos es la de aprendizaje profundo (deep learning), la cual basándose en una red Neuronal, permite emular el funcionamiento del cerebro humano en una máquina, haciendo posible que esta aprenda de la información y sea capaz, por ejemplo, de predecir fenómenos de un sistema dinámico con alto grado de exactitud de acuerdo a los datos aprendidos y analizados.</p>
+        			<p align="justify">Teniendo en cuenta esta premisa, en este trabajo se busca aprovechar las ventajas de las redes neuronales de tipo Convolucionales y las distintas técnicas de Aprendizaje Profundo, para diseñar y desarrollar una aplicación que permita, a partir de los datos obtenidos por un Sistemas de Asimilación de Datos, predecir con un alto grado de exactitud el estado de un sistema dinámico que cambia a lo largo del tiempo.</p>
+    			</div>
+			</div>
+
+			<!-- titulo -->
+			<h1 align="center" style="color:black;font-size:50px;font-style:italic;">Uso de las  redes neuronales con aprendizaje <br><br> profundo como modelo predictor en un <br><br> sistema de asimilación de datos <br><br></h1>
+			<!-- imagen -->
+			<center><img src="{% static 'img/brain.png' %}"></center>
+	    </div>
+
+
+		{% endblock %}
+	
+		{% block js %}
+
+		<script type="text/javascript">	
+			$(window).load(function () {
+    $(".trigger_popup_fricc").click(function(){
+       $('.hover_bkgr_fricc').show();
+    });
+    $('.hover_bkgr_fricc').click(function(){
+        $('.hover_bkgr_fricc').hide();
+    });
+    $('.popupCloseButton').click(function(){
+        $('.hover_bkgr_fricc').hide();
+    });
+});
+
+		</script>
+
+  	{% endblock %}

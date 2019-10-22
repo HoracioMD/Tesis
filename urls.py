@@ -15,11 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from Project.views import principal, lorenz, lorenz2, lorenz63, univarLSTM, multivarLSTM, multivar2LSTM, tablas, tablas63, tablas2, analisisPredL96I, analisisPredL63, hiperparam, hiperparam63
+from Project.views import principal, lorenz, lorenz2, lorenz63, univarLSTM, multivarLSTM, multivar2LSTM, tablas, tablas63, tablas2, analisisPredL96I, analisisPredL63, hiperparam, hiperparam63, manual, perfil, logout, hiperparameters, assimilation
 import Project.appview as app
 
 urlpatterns = [
     url(r'^principal/$', principal, name='Principal'),
+    url(r'^navegacion/$', manual, name='Manual'),
+    url(r'^perfil/$', perfil, name='Perfil'),
+    url(r'^parameters/$', hiperparameters, name='Parametros'),
+    url(r'^logout/$', logout, name='Logout'),
     url(r'^tablas/$', tablas, name='Tablas'),
     url(r'^tablas63/$', tablas63, name='Tablas63'),
     url(r'^tablas2/$', tablas2, name='Tablas2'),
@@ -31,8 +35,9 @@ urlpatterns = [
     url(r'^predictMultivar2/$', multivar2LSTM, name='Multivar2LSTM'),
     url(r'^analisisL96I/$', analisisPredL96I, name='AnalisisPredL96I'),
     url(r'^analisisL63/$', analisisPredL63, name='AnalisisPredL63'),
-    url(r'^hiperparameters/$', hiperparam, name='Hiperparametros'),
-    url(r'^hiperparameters63/$', hiperparam63, name='Hiperparametros63'),
+    url(r'^assimilation/$', assimilation, name='Asimilacion'),
+    #url(r'^hiperparameters/$', hiperparam, name='Hiperparametros'),
+    #url(r'^hiperparameters63/$', hiperparam63, name='Hiperparametros63'),
 
     url(r'^form/$', app.l96I, name='lorenz1'),
     url(r'^form2/$', app.l96II, name='lorenz2'),
@@ -43,5 +48,10 @@ urlpatterns = [
     url(r'^form7/$', app.graph_l63_dataset, name='graph_l63_dataset'),
     url(r'^form8/$', app.graph_l96II_dataset, name='graph_l96II_dataset'),
     url(r'^form9/$', app.graph_l96Ipred_dataset, name='graph_l96Ipred_dataset'),
-    url(r'^form10/$', app.graph_l63pred_dataset, name='graph_l63pred_dataset')   
+    url(r'^form10/$', app.graph_l63pred_dataset, name='graph_l63pred_dataset'),
+    url(r'^form11/$', app.parameters, name='saveparameters'),
+    url(r'^form12/$', app.l63error, name='lorenz63error'),
+    url(r'^form13/$', app.assPred, name='assimilationPred'),
+    url(r'^form14/$', app.assimilate, name='assimilation'),
+
 ]

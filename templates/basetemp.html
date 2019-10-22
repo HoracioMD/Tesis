@@ -21,7 +21,6 @@
 
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-
 	<link id="bootstrap-style" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 	<link href="{% static 'css/bootstrap-responsive.min.css' %}" rel="stylesheet">
 	<link id="base-style" href="{% static 'css/style.css' %}" rel="stylesheet">
@@ -52,7 +51,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="{% url 'Principal' %}"><span>RNN</span></a>
+				<a class="brand" href="{% url 'Principal' %}"><span>Deepnet</span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -67,8 +66,9 @@
 								<li class="dropdown-menu-title">
  									<span>Cuenta</span>
 								</li>
-								<li><a href="#"><i class="halflings-icon user"></i> Perfil</a></li>
-								<li><a href="login.html"><i class="halflings-icon off"></i> Logout</a></li>
+								<li><a href="{% url 'Perfil' %}"><i class="halflings-icon user"></i> Perfil</a></li>
+								<li><a href="{% url 'Parametros' %}"><i class="halflings-icon wrench"></i> Configuración</a></li>
+								<li><a href="{% url 'Logout' %}"><i class="halflings-icon off"></i> Logout</a></li>
 							</ul>
 						</li>
 						<!-- end: Login user menu -->
@@ -83,50 +83,45 @@
 		<div class="row-fluid">
 			<!-- start: Main Menu/Barra lateral -->
 			<!-- start: Barra lateral -->
-			<div id="sidebar-left" class="span2">
-				<div class="nav-collapse sidebar-nav">
-					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li><a href="{% url 'Principal' %}"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Principal</span></a></li>	
-						<li>
-							<a class="dropmenu" href="#"><i class="icon-hdd"></i><span class="hidden-tablet"> Generar Datos</span><span class="label label-important"> 3 </span></a>
-							<ul>
-								<li><a class="submenu" href="{% url 'Lorenz96' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
-								<li><a class="submenu" href="{% url 'Lorenz96II' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 II escalas</span></a></li>
-								<li><a class="submenu" href="{% url 'Lorenz63' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
-							</ul>	
-						</li>
-						<li>
-							<a class="dropmenu" href="#"><i class="icon-folder-open-alt"></i><span class="hidden-tablet"> Tablas</span><span class="label label-important"> 3 </span></a>
-							<ul>
-								<li><a class="submenu" href="{% url 'Tablas' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
-								<li><a class="submenu" href="{% url 'Tablas2'%}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 II escalas</span></a></li>
-								<li><a class="submenu" href="{% url 'Tablas63' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
-							</ul>	
-						</li>
-						<li>
-							<a class="dropmenu" href="#"><i class="icon-random"></i><span class="hidden-tablet"> Predicción</span><span class="label label-important"> 2 </span></a>
-							<ul>
-								<li><a class="submenu" href="{% url 'UnivarLSTM' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
-								<li><a class="submenu" href="{% url 'MultivarLSTM' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
-							</ul>	
-						</li>
-						<li>
-							<a class="dropmenu" href="#"><i class="icon-wrench"></i><span class="hidden-tablet"> Hiperparametros</span><span class="label label-important"> 2 </span></a>
-							<ul>
-								<li><a class="submenu" href="{% url 'Hiperparametros' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
-								<li><a class="submenu" href="{% url 'Hiperparametros63' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
-							</ul>	
-						</li>
-						<li>
-							<a class="dropmenu" href="#"><i class="icon-cogs"></i><span class="hidden-tablet"> Análisis</span><span class="label label-important"> 2 </span></a>
-							<ul>
-								<li><a class="submenu" href="{% url 'AnalisisPredL96I' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'96 I escala</span></a></li>
-								<li><a class="submenu" href="{% url 'AnalisisPredL63' %}"><i class="icon-list-ol"></i><span class="hidden-tablet"> Lorenz'63</span></a></li>
-							</ul>	
-						</li>		
-					</ul>
-				</div>
+
+			<div id="menu">
+    		<ul>
+        	<li class="has-sub"><a>Datos</a>
+            <ul>
+                <li class="has-sub"><a>Generar</a>
+                    <ul>                  
+                        <li><a href="{% url 'Lorenz96' %}">Lorenz'96 I</a></li>
+                        <li><a href="{% url 'Lorenz96II' %}">Lorenz'96 II</a></li>
+                        <li><a href="{% url 'Lorenz63' %}">Lorenz'63</a></li>
+                    </ul>                                                                    	                       	     
+                </li>
+                <li><a>Visualizar</a>
+                	<ul>
+                		<li><a href="{% url 'Tablas' %}">Lorenz'96 I</a></li>
+                        <li><a href="{% url 'Tablas2'%}">Lorenz'96 II</a></li>
+                        <li><a href="{% url 'Tablas63'%}">Lorenz'63</a></li>
+                	</ul>
+                </li>
+            </ul>
+        	</li>
+        	<li class="has-sub"><a>Aprendizaje</a>
+        		<ul>
+        			<li><a href="{% url 'UnivarLSTM' %}">Univariable</a></li>
+                    <li><a href="{% url 'MultivarLSTM' %}">Multivariable</a></li>
+        		</ul>
+        	</li>
+        	<li class="has-sub"><a>Análisis</a>
+        		<ul>
+        			<li><a href="{% url 'AnalisisPredL96I' %}">Lorenz'96 I</a></li>
+                    <li><a href="{% url 'AnalisisPredL63' %}">Lorenz'63</a></li>
+        		</ul>
+        	</li>
+        	<li><a title="" href="{% url 'Asimilacion' %}">Asimilación</a></li>
+    		</ul>
 			</div>
+
+
+
 			<!-- end: Main Menu -->
 			<noscript>
 				<div class="alert alert-block span10">
@@ -144,7 +139,7 @@
 	
 	<div class="clearfix"></div>
 	<footer>
-		<p>	</p>
+		<a class="brand" href="{% url 'Manual' %}"><span>Navegación</span></a>
 	</footer>
 	<!-- start: JavaScript-->
 		<script src="{% static 'js/jquery-1.9.1.min.js' %}"></script>

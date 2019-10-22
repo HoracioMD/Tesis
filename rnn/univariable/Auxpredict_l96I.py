@@ -8,20 +8,28 @@ from math import sqrt
 
 class PredictL96I():
 
-    def __init__(self, name, epochs, seq_len, dropout, lrate, activar, optimizar, perdida):
+    def __init__(self, name, epochs=10, seq_len=200, dropout=0.1, lrate=0.001, activar='linear', optimizar='adam', perdida='mse'):
         #print(data)
-        self.name = name
-        self.epochs = epochs
-        self.seq_len = seq_len
-        self.drpt = dropout
-        self.lrate = lrate
-        self.activacion = activar
-        self.optimizacion = optimizar
-        self.perdida = perdida
 
-        #print(self.activacion + " " + self.optimizacion + " " + self.perdida)
-        #print(self.optimizacion)
-        #print(self.perdida)
+        f = nc4.Dataset('Project/rnn/univariable/Parametros96.nc', 'r')
+        tempgrp = f.groups['l96param']
+
+        self.name = name
+        #self.epochs = epochs
+        #self.seq_len = seq_len
+        #self.drpt = dropout
+        #self.lrate = lrate
+        #self.activacion = activar
+        #self.optimizacion = optimizar
+        #self.perdida = perdida
+
+        self.epochs = tempgrp.epochs
+        self.seq_len = tempgrp.seq_len
+        self.drpt = tempgrp.drpt
+        self.lrate = tempgrp.lrate
+        self.activacion = tempgrp.activacion
+        self.optimizacion = tempgrp.optimizacion
+        self.perdida = tempgrp.perdida
 
         #self.X_train, self.y_train, self.X_test, self.y_test = lstm.load_data('mycsv.csv', self.seq_len, False)       
         self.train_X, self.train_y, self.test_X, self.test_y = Auxlstm.load_data(self.name, self.seq_len, False)
@@ -44,6 +52,16 @@ class PredictL96I():
         # Prediction
         predicted = Auxlstm.predict_point_by_point(model, self.test_X)
 
+         # Funcion costo inicial y final 
+        costo = history.history['loss']
+        #print(history.history['loss'])
+        for i in range (len(costo)):
+            costoinicial = costo[0]
+            if i == (len(costo)-1):
+                costofinal = costo[i]
+
+        mejora = ((costoinicial-costofinal)/costoinicial)*100
+
         #############################################################
         #Metricas
         #verdadero = list(map(float, self.test_y))
@@ -56,7 +74,7 @@ class PredictL96I():
 
         MAE = mean_absolute_error(self.test_y, predicted)
         MSE = mean_squared_error(self.test_y, predicted)
-        RMSE = sqrt(MAE)
+        RMSE = sqrt(MSE)
         R2 = r2_score(self.test_y, predicted)
 
         #print(MAE)
@@ -108,4 +126,4 @@ class PredictL96I():
         verdadero = np.array((time[:200], AuxTrue[:200])).T
         resultado = np.array((time[:200], AuxPredicted[:200], AuxTrue[:200])).T
 
-        return (predicho.tolist(), verdadero.tolist(), resultado.tolist())
+        return (predicho.tolist(), verdadero.tolist(), resultado.tolist(), costoinicial.tolist(), costofinal.tolist(), mejora.tolist())

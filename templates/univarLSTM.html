@@ -1,7 +1,7 @@
 {% extends 'basetemp.html' %}
 
 			{% block titulo %}
-			<title>Predicción L96 I</title>
+			<title>Predicción Univariable</title>
 			{% endblock %}
 
 			{% block contenido %}
@@ -13,22 +13,45 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="{% url 'Principal' %}">Principal</a> 
+					<a href="{% url 'Principal' %}">Inicio</a> 
+					<i class="icon-angle-right"></i>
+					<a>Aprendizaje</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="{% url 'UnivarLSTM' %}">Predicción univariable</a></li>
-			</ul>		
+				<li><a href="{% url 'UnivarLSTM' %}">Lorenz'96 I</a></li>
+			</ul>
+
+			<!-- icono ayuda -->
+			<div class="help">			
+					<i class="icon-lightbulb"><a class="trigger_popup_fricc">Ayuda</a></i>
+			</div>
+
+			<!-- ventana emergente de ayuda -->
+			<div class="hover_bkgr_fricc">
+    			<span class="helper"></span>
+    			<div>
+        			<div class="popupCloseButton">X</div>
+        			<h4>Ayuda</h4>
+        			<p align="justify">En esta sección los usuarios pueden iniciar el <b>entrenamiento</b> y la posterior <b>predicción</b> de una RNN con los datos que fueron generados previamente con el modelo <b>Lorenz'96 I</b>. A continuación se detallan los pasos a seguir: <br><br>
+        			<i><b>A)</b></i> Del listado de datasets almacenados en el sistema, seleccionar (Con el boton <b>graficar</b>) aquel que sera utilizados para el entrenamiento de la red.<br><br>
+        			<i><b>B)</b></i> Una vez seleccionado el dataset, este será graficado en su sección correspondiente. A su vez se habilitara el botón <b>Entrenar</b> que debe ser pulsado para iniciar el entrenamiento de la red. El botón <b>Refrescar</b> puede ser utilizado para recargar la página.<br><br>
+        			<i><b>C)</b></i> Una vez iniciado el entrenamiento, se ocultara el listado de datasets. El tiempo hasta que el mismo finalize depende de la cantidad de datos almacenados en el dataset seleccionado (mayor cantidad de datos, mayor tiempo de procesamiento por parte de la red).<br><br>
+        			<i><b>D)</b></i> Al finalizar el entrenamiento, se informara por pantalla la reducción de la <b>función de costo</b>, lo que puede ser entendido como el grado de mejora (comparando la perdida durante la primera ejecución con respecto a la ultima) que tuvo la red al tratar de predecir los valores durante el entrenamiento. Una reducción igual o superior al 20% es considerada como aceptable.<br><br>
+        			<i><b>E)</b></i> Dependiendo del resultado de la <b>función de costo</b> y el grado de mejora alcanzado, se puede optar con seguir adelante con el experimento y llevar a cabo la <b>predicción</b> de los datos (utilizando el botón  <b>predecir</b>) o refrescar la pagina e iniciar un nuevo experimento. <br><br>
+        			<i><b>F)</b></i> En caso de llevar a cabo la predicción de los datos, los resultados serán graficados en su sección correspondiente.
+        			</p>
+  				</div>
+			</div>		
 
 				<!-- start: Formulario -->
 			<div class="row-fluid sortable">
 			{% csrf_token %}
-				<div class="row-fluid sortable">	
+				<div class="row-fluid sortable" id="listado">	
 				<div class="box">
 					<div class="box-header">
 						<h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Seleccione un dataset Lorenz'96 I para comenzar el entrenamiento</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<div class="box-content">
@@ -69,13 +92,26 @@
 			    </div><!--/row-->
 			<!-- end: Formulario -->
 
-			<div class="row-fluid">
+			<div class="row-fluid sortable" id="grafica2">
 				<div class="box">
 					<div class="box-header">
 						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Gráfica</h2>
 						<div class="box-icon">
-							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+							<form class="form-horizontal formulario" method="POST" action="{% url 'lorenz96pred' %}">
+							{% csrf_token %}
+							<fieldset>
+								<div class="controls">{{ form.nombre }}</div>
+								<div class="controls">{{ form.epocas }}</div>
+								<div class="controls">{{ form.ventana }}</div>
+								<div class="controls">{{ form.dropout }}</div>
+								<div class="controls">{{ form.lrate }}</div>
+								<div class="controls">{{ form.activar }}</div>
+								<div class="controls">{{ form.perdidas }}</div>
+								<div class="controls">{{ form.optimizar }}</div>
+								<button type="submit" class="btn btn-primary" id="btnEjecutar" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Ejecutando">Predecir</button>
+								<button type="button" value="Refresh Page" class="btn" id="recargar" onClick="window.location.reload()">Refrescar</button>
+							</fieldset>
+						  </form>
 						</div>
 					</div>
 					<!--grafica-->
@@ -86,74 +122,32 @@
 					</div>
 				</div>
 			</div><!--/row-->
+
+
+			<div class="row-fluid sortable" id="training">
+				<div class="box">
+					<div class="box-header">
+						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Reducción de la función de costo</h2>
+					</div>
+					<div class="box-content">
+						Costo inicial: <input type="text" id="ini" value="" />
+					  	Costo final: <input type="text" id="fin" value="" />
+					   	Reducción (%): <input type="text" id="red" value="" />
+					   	<button type="submit" class="btn btn-info" id="btnPred" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Ejecutando">Predecir</button>
+					</div>
+				</div>
+			</div>
 			</div>
 
-			<div class="row-fluid">
-				<div class="box span12">
-					<!-- Cabeza Formulario -->
-					<div class="box-header" data-original-title>
-						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Hiperparametros utilizados</h2>
-						<div class="box-icon">
-							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
-						</div>
-					</div>
-					<!-- Fin Cabeza Formulario -->
-
-					<!-- Contenido Formulario -->
-					<div class="box-content">
-						<form class="form-horizontal formulario" method="POST" action="{% url 'lorenz96pred' %}">
-						{% csrf_token %}
-							<fieldset>
-
-							<div class="control-group">
-							<div class="row-fluid span6">
-								<!-- label class="control-label" for="focusedInput">Tiempo final (TF)</label -->
-								{{ form.nombre.label_tag }}
-								<div class="controls">{{ form.nombre }}</div>
-								{{ form.epocas.label_tag }}
-								<div class="controls">{{ form.epocas }}</div>
-								{{ form.ventana.label_tag }}
-								<div class="controls">{{ form.ventana }}</div>
-								{{ form.dropout.label_tag }}
-								<div class="controls">{{ form.dropout }}</div>
-								{{ form.lrate.label_tag }}
-								<div class="controls">{{ form.lrate }}</div>
-							</div>
-							<div class="row-fluid span6">
-								<!-- label class="control-label" for="focusedInput">Constante forzada (F)</label -->
-								{{ form.activar.label_tag }}
-								<div class="controls">{{ form.activar }}</div>
-								{{ form.perdidas.label_tag }}
-								<div class="controls">{{ form.perdidas }}</div>
-								{{ form.optimizar.label_tag }}
-								<div class="controls">{{ form.optimizar }}</div>
-							</div>
-							</div>
-
-							  <!-- Botones -->
-							  <div class="form-actions">
-								<button type="submit" class="btn btn-primary" id="btnEjecutar" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Ejecutando">Predecir</button>
-								<button type="button" value="Refresh Page" class="btn" id="recargar" onClick="window.location.reload()">Refrescar</button>
-							  </div>
-							</fieldset>
-						  </form>
-					</div>
-					<!-- Fin Contenido Formulario -->
-				</div><!--/span-->
-				</div>
-
-				<!-- start: Formulario -->
-				<div class="row-fluid sortable">
+			<!-- start: Formulario -->
+			<div class="row-fluid sortable" id="graficos">
 				{% csrf_token %}
-
 				<div class="row-fluid">
 				<div class="box">
 					<div class="box-header">
-						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Predicción</h2>
+						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Entrenamiento con la RNN</h2>
 						<div class="box-icon">
-							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+							<button type="button" value="Refresh Page" class="btn" id="recargar2" onClick="window.location.reload()">Refrescar</button>
 						</div>
 					</div>
 					<!--grafica-->
@@ -178,10 +172,22 @@
 
 			window.onload = function(){	
 
+			$(".trigger_popup_fricc").click(function(){
+       			$('.hover_bkgr_fricc').show();
+    		});
+    		$('.hover_bkgr_fricc').click(function(){
+        		$('.hover_bkgr_fricc').hide();
+    		});
+    		$('.popupCloseButton').click(function(){
+        		$('.hover_bkgr_fricc').hide();
+    		});	
 
 
 			$(document).ready(function() {
 
+				//Esconder entrenamiento
+ 				$('#training').hide();
+ 				$('#graficos').hide();
 
     			$('#TableL').dataTable({
     
@@ -195,17 +201,16 @@
             		location.reload(true);
         		});
 
-				$("#activation").click( function(){
-         			return false;
- 				});
+        		$("#recargar2").click(function(){
+            		location.reload(true);
+        		});
 
- 				$("#optimization").click( function(){
-         			return false;
- 				});
+ 				$("#btnPred").click(function(){
+ 					setTimeout(function(){
+						$('#graficos').show();},3000)
+      
+        		});
 
- 				$("#loss").click( function(){
-         			return false;
- 				});
 
 				$('#btnEjecutar').prop('disabled',true);
 
@@ -263,9 +268,8 @@
 
       	 		$('#btnEjecutar').prop('disabled', true);
 
-      	 		$("#TableL").click( function(){
-         			return false;
- 				});
+ 				//Esconder listado
+ 				$('#listado').hide();
 
           		e.preventDefault();
      	 
@@ -275,6 +279,14 @@
             		data: $(this).serialize(),
 
             		success: function(data) {
+            			//Mostrar entrenamiento
+ 						$('#training').show();
+ 						$('#graficos').show();
+
+						$("#ini").val(data[3]);
+						$("#fin").val(data[4]);
+						$("#red").val(data[5]);
+
             			//Resetear estado del botton
             			my_button.button('reset');
               			$(".message").fadeIn(0);
@@ -294,6 +306,9 @@
               			var plot = $.plot($("#graph2"), [{label:"Predicho", data:data[0]}, {label:"Observado", data:data[1]}],options)
               			//$('#TablaLorenz').append(data);
               			//console.log(data)
+
+              			$('#graficos').hide();
+              			$('#grafica2').hide();
             		},
 
             		error: function(xhr, status, error){

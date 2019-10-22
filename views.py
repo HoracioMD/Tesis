@@ -8,10 +8,21 @@ from .forms.formL96II import FormLorenz96II
 from .forms.formL63 import FormLorenz63
 from .forms.formUnivar import FormUnivar
 from .forms.formMultivar import FormMultivar
+from .forms.formParam import FormParameters
+from .forms.formL63error import FormLorenz63Error
 from .netcdf4 import NCDF4
 
 def principal(request):
-	return render_to_response('indx.html')
+	return render_to_response('principal.html')
+
+def manual(request):
+	return render_to_response('manual.html')
+
+def perfil(request):
+	return render_to_response('perfil.html')
+
+def logout(request):
+	return render_to_response('logout.html')
 
 def tablas(request):
 	objeto = NCDF4()
@@ -42,13 +53,8 @@ def lorenz2(request):
 def lorenz63(request):
 	return render(request,'lorenz63.html', {'form': FormLorenz63()})
 
-def hiperparam(request):
-	objeto = NCDF4()
-	return render(request,'parameter.html', {'list_l96I': objeto.return_list_nc('l96I'), 'form': FormUnivar()})
-
-def hiperparam63(request):
-	objeto = NCDF4()
-	return render(request,'parameter63.html', {'list_l63': objeto.return_list63_nc('l63'), 'form': FormMultivar()})
+def hiperparameters(request):
+	return render(request,'hiperparameters.html', {'form': FormParameters()})
 
 def univarLSTM(request):
 	objeto = NCDF4()
@@ -58,5 +64,19 @@ def multivarLSTM(request):
 	objeto = NCDF4()
 	return render(request, 'multivarLSTM.html', {'list_l63': objeto.return_list63_nc('l63'), 'form': FormMultivar()})
 
+def assimilation(request):
+	return render(request, 'assimilation.html', {'form': FormLorenz63Error()})
+
+################No se usa
 def multivar2LSTM(request):
 	return render(request, 'multivar2LSTM.html')
+
+################No se usa
+def hiperparam(request):
+	objeto = NCDF4()
+	return render(request,'parameter.html', {'list_l96I': objeto.return_list_nc('l96I'), 'form': FormUnivar()})
+
+#################No se usa
+def hiperparam63(request):
+	objeto = NCDF4()
+	return render(request,'parameter63.html', {'list_l63': objeto.return_list63_nc('l63'), 'form': FormMultivar()})

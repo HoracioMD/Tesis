@@ -235,7 +235,7 @@
 =================================================================== */
 
 body {
-	background: #F5F5F5;
+	background: #dddddd;
 	color: #333;
 	border: none;
 	font-family: 'Open Sans', sans-serif;
@@ -705,17 +705,46 @@ ul.messages li .message {
 =================================================================== */
 
 #content {
-	background: #ffffff;
+	background: #D3F9E3;
 	filter: none;
 	min-height: 100%;
 	padding: 20px 20px;
 	position: relative;
 }
 
+.help {
+	margin: -85px -28px 28px 960px;
+	line-height: 33px;
+	background: #F1EA8D;
+	border: 0px;
+	color: #888;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	   		box-shadow: none;
+  	-webkit-border-radius: 0px;
+       -moz-border-radius: 0px;
+	        border-radius: 0px; 	
+}
+
+.help span {
+	text-shadow: 1px 1px 0px #fff;
+}
+
+.help a {
+	color: #888;
+	text-shadow: 0px 1px 1px #fff;	
+}
+
+.help a:hover {
+	color: #646464;
+	text-shadow: 0px 1px 1px #fff;
+	text-decoration: none;	
+}
+
 .breadcrumb {
-	margin: -28px -28px 28px -28px;
+	margin: -28px 60px 28px -28px;
 	line-height: 34px;
-	background: #F7F7F7;
+	background: #F1EA8D;
 	border: 0px;
 	color: #888;
 	-webkit-box-shadow: none;
@@ -3010,3 +3039,201 @@ ul.messagesList li span.date {
 	background-repeat:no-repeat;
 	background-size:100%;
 }
+
+/* Popup box BEGIN */
+.hover_bkgr_fricc{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:88%;
+    position:absolute;
+    text-align:center;
+    top:10;
+    width:95%;
+    z-index:10000;
+    overflow: auto;
+}
+.hover_bkgr_fricc .helper{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_fricc > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    max-width: 551px;
+    min-height: 100px;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    padding: 15px 5%;
+}
+.popupCloseButton {
+    background-color: #fff;
+    border: 3px solid #999;
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 25px;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.popupCloseButton:hover {
+    background-color: #ccc;
+}
+.trigger_popup_fricc {
+    cursor: pointer;
+    font-size: 15px;
+    margin: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+/* Popup box BEGIN */
+
+#menu {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    position: absolute; 
+
+}
+ 
+#menu ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0; 
+}
+ 
+#menu ul {
+    position: relative;
+    z-index: 597;
+    float: left; 
+}
+ 
+#menu ul li {
+    float: left;
+    min-height: 1px;
+    line-height: 1em;
+    vertical-align: middle; 
+}
+ 
+#menu ul li.hover,
+#menu ul li:hover {
+    position: relative;
+    z-index: 599;
+    cursor: default; 
+}
+ 
+#menu ul ul {
+    visibility: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 598;
+    width: 115%; 
+}
+ 
+#menu ul ul li {
+    float: none; 
+}
+ 
+#menu ul li:hover > ul {
+    visibility: visible; 
+}
+ 
+#menu ul ul {
+    top: 0;
+    left: 100%; 
+}
+ 
+#menu ul li {
+    float: none; 
+}
+ 
+#menu {
+    width: 255px; 
+}
+ 
+#menu span, #menu a {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    text-decoration: none; 
+    font-weight: bold;
+    /* color */  
+    /* background: #3A3A3A; */ 
+}
+ 
+#menu:after, #menu ul:after {
+    content: '';
+    display: block;
+    clear: both; 
+}
+ 
+#menu ul, #menu li {
+    width: 85%; 
+}
+#menu li {
+	/* Color del primer nivel botones del menu */
+    background: #dddddd;
+    border-style: groove;
+}
+#menu li:hover {
+	/* Color del primer nivel de botones al pasar el cursor*/
+    background: #52D1C5; 
+}
+#menu a {
+    color: #666666;
+    line-height: 160%;
+    padding: 30px 15px 30px 20px;
+    width: 150px; 
+}
+#menu ul ul li {
+	/* Color del segundo nivel botones del menu */
+    background: #D9E7A5; 
+}
+#menu ul ul li:hover {
+	/* Color del segundo nivel de botones al pasar el cursor*/
+    background: #52D1C5; 
+}
+#menu ul ul li:hover a {
+    color: #666666; 
+}
+#menu ul ul li ul li {
+	/* Color del tercer nivel botones del menu */
+    background: #E5A897; 
+}
+#menu ul ul li ul li:hover {
+	/* Color del tercer nivel de botones al pasar el cursor*/
+    background: #52D1C5; 
+}
+#menu .has-sub {
+    position: relative; 
+}
+ 
+#menu .has-sub:after, #menu .has-sub > ul > .has-sub:hover:after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 5px;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    margin-top: -1px;
+}
+ 
+#menu .fa-angle-right {
+    float: right;
+}
+
+

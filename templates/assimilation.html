@@ -1,0 +1,311 @@
+{% extends 'basetemp.html' %}
+{% load static %}
+
+			{% block titulo %}
+			<title>Asimilación de datos</title>
+			{% endblock %}
+
+			{% block contenido %}
+			<!-- start: Content -->
+			<!-- start: Contenido -->
+			<!-- start: Cuerpo -->
+			<div id="content" class="span10">
+			
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="{% url 'Principal' %}">Inicio</a> 
+					<i class="icon-angle-right"></i>
+				</li>
+				<li><a href="{% url 'Lorenz63' %}">Asimilación </a></li>
+			</ul>
+			
+			<!-- icono ayuda -->
+			<div class="help">			
+					<i class="icon-lightbulb"><a class="trigger_popup_fricc">Ayuda</a></i>
+			</div>		
+
+
+			<!-- ventana emergente de ayuda -->
+			<div class="hover_bkgr_fricc">
+    			<span class="helper"></span>
+    			<div>
+        			<div class="popupCloseButton">X</div>
+        			<h4>Ayuda</h4>
+        			<p align="justify">En esta sección los usuarios pueden llevar a cabo el proceso <b>asimilación de datos</b>. A continuación se detallan los pasos a seguir: <br><br>
+        			<i><b>A)</b></i> Para que el proceso de asimilación pueda llevarse a cabo, como primer paso se deben generar 2 series de datos, una <b>verdadera</b> y otra con <b>errores</b>. Ambas series son generadas con el modelo <b>Lorenz'63</b>, paso previo completando una serie de parámetros requeridos y utilizando el boton <b>Generar</b>. Se recomienda que la serie sea generado con <b>100000 o mas puntos</b>, para asegurar el correcto funcionamiento del modelo.<br><br>
+        			<i><b>B)</b></i> Una vez generadas ambas series, estas serán graficadas en su sección correspondiente. A su vez se habilitara el botón <b>Entrenar</b> que debe ser pulsado para iniciar el entrenamiento de la RNN.<br><br>
+        			<i><b>C)</b></i> Una vez iniciado el entrenamiento, se ocultara el formulario de parámetros que se encuentra al inicio. El tiempo hasta que el entrenamiento finalize depende de la cantidad de datos generados (mayor cantidad de datos, mayor tiempo de procesamiento por parte de la red). Se destaca que para el entrenamiento de la red, se utilizara la serie con <b>errores</b>.<br><br>
+        			<i><b>D)</b></i> Al finalizar el <b>entrenamiento</b> y <b>predicción</b>, se graficaran los resultados obtenidos en su sección correspondiente. A su vez se habilitara el botón <b>Asimilar</b> que debe ser pulsado para iniciar el proceso de asimilación, utilizando ambas series de datos generadas al inicio del experimento.<br><br>
+        			<i><b>E)</b></i> Al finalizar la <b>asimilación</b>, se mostraran por pantalla los resultados obtenidos correspondientes a cada variable del modelo, junto con el RMSE asociado a cada una de ellas. Ambas graficas representan el mismo resultado, pero en diferentes escalas (la primera grafica en una escala de 50 puntos, en tanto que la segunda, una escala de 1000 puntos.) <br>
+        			
+        			</p>
+  				</div>
+			</div>
+			
+			<!-- start: Formulario -->
+			<div class="row-fluid" id="formulariodatos">
+				<div class="box span12">
+					<!-- Cabeza Formulario -->
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Lorenz'63 con errores</h2>
+					</div>
+					<!-- Fin Cabeza Formulario -->
+
+					<!-- Contenido Formulario -->
+					<div class="box-content">
+						<form class="form-horizontal formulario" method="POST" action="{% url 'lorenz63error' %}">
+						{% csrf_token %}
+							<fieldset>
+							<div class="control-group">
+							<div class="row-fluid span6">
+								{{ form.sigma.label_tag }}
+								<div class="controls">{{ form.sigma }}</div>
+								{{ form.rho.label_tag }}
+								<div class="controls">{{ form.rho }}</div>
+								{{ form.beta.label_tag }}
+								<div class="controls">{{ form.beta }}</div>
+							</div>
+							<div class="row-fluid span6">
+								{{ form.errorXY.label_tag }}
+								<div class="controls">{{ form.errorXY }}</div>
+								{{ form.errorZ.label_tag }}
+								<div class="controls">{{ form.errorZ }}</div>
+								{{ form.observaciones.label_tag }}
+								<div class="controls">{{ form.observaciones }}</div>
+							</div>
+							</div>			
+							<!-- Botones -->
+							<div class="form-actions">
+								<button type="submit" class="btn btn-primary" id="btnEjecutar" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Ejecutando">Generar</button>
+								<button type="button" value="Refresh Page" class="btn" onClick="window.location.reload()">Refrescar</button>
+							</div>
+							</fieldset>
+						  </form>
+					</div>
+
+					<!-- Fin Contenido Formulario -->
+				</div><!--/span-->
+			</div>
+
+				<!-- start: Formulario -->
+			<div class="row-fluid sortable" id="graficos">
+
+			<div class="row-fluid">
+				<div class="box">
+					<div class="box-header">
+						<h2 id="graphTitulo"><i class="halflings-icon white list-alt"></i><span class="break"></span>Series generadas</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+						</div>
+					</div>
+					<!--grafica-->
+					<div class="box-content">
+						<!-- div id="sincos"  class="center" style="height:300px;" ></div-->
+						<div id="graph" class="center" style="height:300px;" ></div>
+					</div>
+					<div class="box-content">
+						<!-- div id="sincos"  class="center" style="height:300px;" ></div-->
+						<div id="graph2" class="center" style="height:300px;" ></div>
+					</div>
+					<div class="box-content">
+						<!-- div id="sincos"  class="center" style="height:300px;" ></div-->
+						<div id="graph3" class="center" style="height:300px;" ></div>
+					</div>
+
+					<center><img id="assimilation" src="{% static 'ass/ass.png' %}"></center>
+					<center><img id="assimilation1000" src="{% static 'ass/ass1000.png' %}"></center>
+
+					<div class="box-content" id="predecir">
+						<form class="form-horizontal formulario2" method="POST" action="{% url 'assimilationPred' %}">
+						{% csrf_token %}
+							<fieldset>
+							<div class="form-actions">
+								<button type="submit" class="btn btn-primary" id="btnEjecutar2" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Ejecutando">Entrenar</button>
+								<button type="button" value="Refresh Page" class="btn" onClick="window.location.reload()">Refrescar</button>
+							</div>
+							</fieldset>
+						  </form>
+					</div>
+
+					<div class="box-content" id="asimilar">
+						<form class="form-horizontal formulario3" method="POST" action="{% url 'assimilation' %}">
+						{% csrf_token %}
+							<fieldset>
+							<div class="form-actions">
+								<button type="submit" class="btn btn-primary" id="btnAsimilar" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Ejecutando">Asimilar</button>
+								<button type="button" value="Refresh Page" class="btn" onClick="window.location.reload()">Refrescar</button>
+							</div>
+							</fieldset>
+						  </form>
+					</div>
+
+				</div>
+			</div><!--/row-->
+
+	       </div><!--/.fluid-container-->
+	
+
+	</div>
+
+		{% endblock %}
+	
+		{% block js %}
+
+		<script type="text/javascript">
+
+      	window.onload = function(){
+
+      	//Esconder graficos al cargar la pagina
+      	$('#graficos').hide();
+      	//Esconder botones de asimilacion al cargar la pagina
+      	$('#asimilar').hide();
+		$('#assimilation').hide();
+		$('#assimilation1000').hide();      	
+
+      	$(".trigger_popup_fricc").click(function(){
+       	$('.hover_bkgr_fricc').show();
+    	});
+    	$('.hover_bkgr_fricc').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
+    	$('.popupCloseButton').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
+
+
+        $('.formulario').submit(function(e){
+
+          //Subleyenda
+          $('button').button({loadingText: 'Espere...'});
+          //save button so we can use later
+          var my_button = $(this).find("button");
+          //give button loading state
+      	  my_button.button('loading');
+
+          e.preventDefault();
+
+          $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+
+            success: function(data) {
+
+              $('#graficos').show();
+
+          	  //Resetear estado del botton
+              my_button.button('reset');
+              $(".message").fadeIn(0);
+              $(".message").delay(5000).fadeOut('slow');
+
+              //Esconderlo
+              $('#btnEjecutar').hide()    
+
+              //Opciones para el ploteado
+              var options = {
+              	series: {
+              		lines: {show: true },
+              		points: {show: false}
+              	},
+              	grid: {
+              		hoverable: {show: true}
+              	}
+              };	
+
+              //Graficar la funcion con los datos pasados
+              var plot = $.plot($("#graph"), [{label:"X Error", data:data[3], lines: { show: true}}, {label:"X Val", data:data[0], lines: { show: true}}])
+              var plot = $.plot($("#graph2"), [{label:"Y Error", data:data[4], lines: { show: true}}, {label:"Y Val", data:data[1], lines: { show: true}}])
+              var plot = $.plot($("#graph3"), [{label:"Z Error", data:data[5], lines: { show: true}}, {label:"Z Val", data:data[2], lines: { show: true}}])
+
+            }       
+          })
+        })
+
+        $('.formulario2').submit(function(e){
+
+          //Subleyenda
+          $('button').button({loadingText: 'Espere...'});
+          //save button so we can use later
+          var my_button = $(this).find("button");
+          //give button loading state
+      	  my_button.button('loading');
+
+      	  $('#formulariodatos').hide();
+
+          e.preventDefault();
+
+          $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+
+            success: function(data) {
+
+          	  //Resetear estado del botton
+              my_button.button('reset');
+              $(".message").fadeIn(0);
+              $(".message").delay(5000).fadeOut('slow');
+
+              //Esconderlo
+              $('#btnEjecutar2').hide()    
+
+      	  	  $('#predecir').hide();
+      	  	  $('#asimilar').show();
+
+      	  	  graphTitulo.innerText = "Entrenamiento con la RNN";
+
+              //Graficar la funcion con los datos pasados
+              var plot = $.plot($("#graph"),  [{label:"X Pred", data:data[3], points: {show: true,radius: 2, lineWidth: 4, fill: false}}, {label:"X True", data:data[0], lines: { show: true}}])
+              var plot = $.plot($("#graph2"), [{label:"Y Pred", data:data[4], points: {show: true,radius: 2, lineWidth: 4, fill: false}}, {label:"Y True", data:data[1], lines: { show: true}}])
+              var plot = $.plot($("#graph3"), [{label:"Z Pred", data:data[5], points: {show: true,radius: 2, lineWidth: 4, fill: false}}, {label:"Z True", data:data[2], lines: { show: true}}])
+              
+              //console.log(data)
+
+            }       
+          })
+        })
+
+        $('.formulario3').submit(function(e){
+
+          //Subleyenda
+          $('button').button({loadingText: 'Espere...'});
+          //save button so we can use later
+          var my_button = $(this).find("button");
+          //give button loading state
+      	  my_button.button('loading');
+
+          e.preventDefault();
+
+          $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+
+            success: function(data) {
+
+          	  //Resetear estado del botton
+              my_button.button('reset');
+              $(".message").fadeIn(0);
+              $(".message").delay(5000).fadeOut('slow');
+
+              $('#btnAsimilar').hide();
+
+              graphTitulo.innerText = "Filtro de Kalman por Ensamble";
+
+              $('#assimilation').show();
+		      $('#assimilation1000').show();
+		      
+		      $('#graph').hide();
+			  $('#graph2').hide();
+			  $('#graph3').hide();   
+
+            }       
+          })
+        })
+  
+
+      }
+  	</script>
+	<!-- end: JavaScript-->
+	{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'basetemp.html' %}
 
 			{% block titulo %}
-			<title>Datasets almacenados</title>
+			<title>Datasets L'63</title>
 			{% endblock %}
 
 			{% block contenido %}
@@ -15,9 +15,38 @@
 					<i class="icon-home"></i>
 					<a href="{% url 'Principal' %}">Principal</a> 
 					<i class="icon-angle-right"></i>
+					<a>Datos</a> 
+					<i class="icon-angle-right"></i>
+					<a>Visualizar</a> 
+					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="{% url 'Tablas63' %}">Datasets L63</a></li>
+				<li><a href="{% url 'Tablas63' %}">Lorenz'63</a></li>
 			</ul>
+
+			<!-- icono ayuda -->
+			<div class="help">			
+					<i class="icon-lightbulb"><a class="trigger_popup_fricc">Ayuda</a></i>
+			</div>	
+
+			<!-- ventana emergente de ayuda -->
+			<div class="hover_bkgr_fricc">
+    			<span class="helper"></span>
+    			<div>
+        			<div class="popupCloseButton">X</div>
+        			<h4>Ayuda</h4>
+        			<p align="justify">En esta sección es posible observar los dataset del modelo <b>Lorenz'63</b> que fueron creados y almacenados por los distintos usuarios que han usado el sistema.<br><br>
+        			En el listado figuran todos los dataset guardados junto con una serie de metadatos que denotan los <b>parámetros</b> con los cuales fueron generadas cada una de las series correspondientes: <br><br>
+        			<i><b><u>Nombre:</u></b></i> Nombre del dataset. <br>
+        			<i><b><u>Longitud Tot.:</u></b></i> Longitud total del dataset (total de puntos generados). <br>
+        			<i><b><u>Pts. a graficar:</u></b></i> Puntos a graficar (constituyen una porción del total de puntos que fueron generados). <br>
+        			<i><b><u>Fecha:</u></b></i> Momento en el cual fue creado y almacenado el dataset. <br>
+        			<i><b><u>Beta:</u></b></i> Valor correspondiente a la constante <b>Beta</b> con la que se generó la serie. <br>
+        			<i><b><u>Sigma:</u></b></i> Valor correspondiente a la constante <b>Sigma</b> con la que se generó la serie. <br>
+        			<i><b><u>Rho:</u></b></i> Valor correspondiente a la constante <b>Rho</b> con la que se generó la serie. <br>
+        			<i><b><u>Acción:</u></b></i> El botón <b>graficar</b> permite plotear los datos asociados al dataset seleccionado para poder visualizarlos en su sección correspondiente.
+        			</p>
+  				</div>
+			</div>
 			
 				<!-- start: Formulario -->
 			<div class="row-fluid sortable">
@@ -28,7 +57,6 @@
 						<h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Lorenz'63 datasets almacenados en el sistema</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<div class="box-content">
@@ -77,7 +105,6 @@
 						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Gráfica</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<!--grafica-->
@@ -97,6 +124,18 @@
 		{% block js %}
 
 		<script type="text/javascript">	
+
+			window.onload = function(){
+
+      	$(".trigger_popup_fricc").click(function(){
+       	$('.hover_bkgr_fricc').show();
+    	});
+    	$('.hover_bkgr_fricc').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
+    	$('.popupCloseButton').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
 
 
 			$(document).ready(function() {
@@ -142,6 +181,7 @@
 
 			})
 		})
+		}
   		</script>
 
 		{% endblock %}

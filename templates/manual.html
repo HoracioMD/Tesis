@@ -1,0 +1,39 @@
+{% extends 'basetemp.html' %}
+{% load static %}
+
+			{% block titulo %}
+			<title>Navegación</title>
+			{% endblock %}
+
+			{% block contenido %}
+			<!-- start: Content -->
+			<!-- start: Contenido -->
+			<!-- start: Cuerpo -->
+
+		<div id="content" class="span10">		
+			<!-- icono principal -->		
+			
+
+			<p align="justify" style="border:5px; border-style:solid; border-color:#FF0000; padding: 1em;font-size: 20px;">El menú desplegable a la izquierda permite acceder a las distintas funcionalidades que presenta el sistema, las cuales se detallaran a continuación: <br><br>
+			
+			<i><b>Datos (Generar):</b></i> generación, en tiempo real, de series temporales a partir de la selección de alguno de los modelos propuestos junto con sus correspondientes parametros de configuración.
+			<br><br>
+			<i><b>Datos (Visualizar):</b></i> registro histórico, por cada modelo, de todas las series temporales que hayan sido generadas y almacenadas en el sistema. 
+			<br><br>
+			<i><b>Aprendizaje:</b></i> entrenamiento de una Red Neuronal y posterior validación de la misma con los datos que le son suministrados como parametros de entrada. Los experimentos pueden ser de tipo <b>univariable</b> (Modelo Lorenz'96 I) y <b>multivariable</b> (Modelo Lorenz'63).
+			<br><br>
+			<i><b>Análisis:</b></i> estadístico de los datos obtenidos en los distintos experimentos, considerando una serie de métricas.
+			<br><br>
+			<i><b>Asimilación:</b></i> utilización de una RNN como modelo predictor en un sistema de asimilación datos.
+			<br><br>
+			En cada apartado nombrado anteriormente es posible encontrar información mas específica que facilitara el uso del sistema.
+			</p>
+		
+	    </div>
+
+
+		{% endblock %}
+	
+		{% block js %}
+
+  	{% endblock %}

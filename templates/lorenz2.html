@@ -13,11 +13,41 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="{% url 'Principal' %}">Principal</a> 
+					<a href="{% url 'Principal' %}">Inicio</a> 
+					<i class="icon-angle-right"></i>
+					<a>Datos</a> 
+					<i class="icon-angle-right"></i>
+					<a>Generar</a> 
 					<i class="icon-angle-right"></i>
 				</li>
 				<li><a href="{% url 'Lorenz96II' %}">Lorenz'96 II</a></li>
 			</ul>
+			
+			<!-- icono ayuda -->
+			<div class="help">			
+					<i class="icon-lightbulb"><a class="trigger_popup_fricc">Ayuda</a></i>
+			</div>
+
+			<!-- ventana emergente de ayuda -->
+			<div class="hover_bkgr_fricc">
+    			<span class="helper"></span>
+    			<div>
+        			<div class="popupCloseButton">X</div>
+        			<h4>Ayuda</h4>
+        			<p align="justify">El modelo de dos escalas se caracteriza por el hecho de que se trabajan y se integran 2 funciones en lugar de una. Cada función tiene asociado un vector de valores (un <b>Vector X</b> de variables de gran escala, y un <b>Vector Y</b> de variables de pequeña escala). Ambas funciones se influyen mutuamente en todo momento, lo que condiciona el resultado final que se puede llegar a obtener. Vale decir que por <b>cada variable X</b> del vector de gran escala, se le asocia <b>32 variables de Y</b> del vector de pequeña escala. A efectos de investigación, este modelo, es considerado como <b>"imperfecto"</b>, o dicho de otra manera, posee errores inherentes al modelado del sistema, lo que resulta de utilidad para ser utilizado como mecanismo de análisis al ser estudiado y comparado con el modelo de una escala el cual es considerado como <b>"perfecto"</b>.</p><br>
+        			<p align="justify">Parámetros a tener en cuenta a la hora de generar los datos:<br><br>
+        			<i><b><u>Constante forzada (F):</u></b></i> fuerza externa, considerada como constante en tiempo y uniforme. Su valor determinara el tipo de solución (el ambiente caótico del modelo). Los valores recomendados son <b>entre 6 y 14.</b> Entre mas grande el valor, mas caótico sera el sistema generado.<br>
+        			<i><b><u>Cantidad de variables de X:</u></b></i> indica la cantidad de variables a generar en el <b>vector X</b> de "gran escala". Por defecto, el modelo necesita que estas sean <b>8</b>.<br>
+        			<i><b><u>Cantidad de variables de Y:</u></b></i> indica la cantidad de variables a generar en el <b>vector Y</b> de "pequeña escala". Por defecto, el modelo necesita que estas sean <b>256</b>.<br>
+        			<i><b><u>Observaciones a dibujar:</u></b></i> cantidad de puntos asociados a las variables que se desean plotear en la gráfica. Este número siempre debe ser menor que el <b>total de observaciones a generar</b>, y se recomiendan valores entre los <b>100</b> y <b>1000</b> puntos para que el comportamiento del modelo sea distinguible en la gráfica.<br>
+        			<i><b><u>Total de observaciones a generar:</u></b></i> número total de puntos (datos) que se desean generar por cada una de las variables especificadas. Se recomiendan un mínimo de <b>2000</b> puntos para que el modelo pueda funcionar correctamente. Entre mas grande sea el número de datos a generar, mayor sera el tiempo de procesamiento. Este valor debe ser siempre mayor que las <b>observaciones a dibujar</b>. (En caso de generar 2000 puntos y dibujar 200, solo se plotearan los primeros 200 valores, pero se almacenaran los 2000).<br>
+        			<i><b><u>Guardar datos:</u></b></i> los datos generados pueden ser almacenados en distintos datasets para ser utilizados posteriormente para el entrenamiento y validación de una RNN.<br><br>
+        			En la <i><b>Tabla de resultados</b></i>, se mostraran los valores obtenidos <b>(observaciones X e Y)</b>  junto con el <b>tiempo</b> en el cual se produjeron.<br>
+        			Como consideración final, es necesario aclarar que el tiempo de procesamiento en este modelo puede resultar bastante extenso, debido a la gran cantidad de cálculo que debe llevarse a cabo, en especial la integración de las funciones, que se lleva a cabo con el método de <b>Runge Kutta de cuarto orden</b>.
+        			</p>
+  				</div>
+			</div>
+			
 			
 			<!-- start: Formulario -->
 			<div class="row-fluid sortable">
@@ -27,7 +57,6 @@
 						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Lorenz'96 dos escalas</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<!-- Fin Cabeza Formulario -->
@@ -105,7 +134,6 @@
 						<h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Tabla de resultados</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<div class="box-content">
@@ -131,7 +159,6 @@
 						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Gráfica</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<!--grafica-->
@@ -156,6 +183,17 @@
 		<script type="text/javascript">
 
       	window.onload = function(){
+
+      	$(".trigger_popup_fricc").click(function(){
+       	$('.hover_bkgr_fricc').show();
+    	});
+    	$('.hover_bkgr_fricc').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
+    	$('.popupCloseButton').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
+
 
       	//Creacion de la tabla para mostrar los datos
       	$(document).ready(function() {

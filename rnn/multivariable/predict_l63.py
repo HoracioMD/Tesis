@@ -8,20 +8,30 @@ from math import sqrt
 
 class PredictL63():
 
-    def __init__(self, name, epochs, seq_len, dropout, lrate, activar, optimizar, perdida):
+    def __init__(self, name, epochs=15, seq_len=256, dropout=0.2, lrate=0.001, activar='linear', optimizar='adam', perdida='mse'):
         #print(data)
-        self.name = name
-        self.epochs = epochs
-        self.seq_len = seq_len
-        self.drpt = dropout
-        self.lrate = lrate
-        self.activacion = activar
-        self.optimizacion = optimizar
-        self.perdida = perdida
 
-        #print(self.activacion + " " + self.optimizacion + " " + self.perdida)
-        #print(self.optimizacion)
-        #print(self.perdida)
+        f = nc4.Dataset('Project/rnn/multivariable/Parametros63.nc', 'r')
+        tempgrp = f.groups['l63param']
+
+        self.name = name
+        #self.epochs = epochs
+        #self.seq_len = seq_len
+        #self.drpt = dropout
+        #self.lrate = lrate
+        #self.activacion = activar
+        #self.optimizacion = optimizar
+        #self.perdida = perdida
+
+        self.epochs = tempgrp.epochs
+        self.seq_len = tempgrp.seq_len
+        self.drpt = tempgrp.drpt
+        self.lrate = tempgrp.lrate
+        self.activacion = tempgrp.activacion
+        self.optimizacion = tempgrp.optimizacion
+        self.perdida = tempgrp.perdida
+
+        f.close()
 
         #self.X_train, self.y_train, self.X_test, self.y_test = lstm.load_data('mycsv.csv', self.seq_len, False)       
         self.train_X, self.train_y, self.test_X, self.test_y = lstm63.load_data(self.name, self.seq_len, False)
@@ -44,6 +54,20 @@ class PredictL63():
         # Prediction
         predicted = lstm63.predict_point_by_point(model, self.test_X)
 
+        # Funcion costo inicial y final 
+        costo = history.history['loss']
+        #print(history.history['loss'])
+        for i in range (len(costo)):
+            costoinicial = costo[0]
+            if i == (len(costo)-1):
+                costofinal = costo[i]
+
+        mejora = ((costoinicial-costofinal)/costoinicial)*100
+
+        #print(costoinicial)
+        #print(costofinal)
+        #print(mejora)
+
         #############################################################
         #Metricas
         #verdadero = list(map(float, self.test_y))
@@ -56,7 +80,7 @@ class PredictL63():
 
         MAE = mean_absolute_error(self.test_y, predicted)
         MSE = mean_squared_error(self.test_y, predicted)
-        RMSE = sqrt(MAE)
+        RMSE = sqrt(MSE)
         R2 = r2_score(self.test_y, predicted)
 
         #print(MAE)
@@ -131,4 +155,4 @@ class PredictL63():
         verdaderoZ = np.array((time[:500], AuxTrueZ[:500])).T
         #resultado = np.array((time[:500], AuxPredicted[:500], AuxTrue[:500])).T
 
-        return (predichoX.tolist(), verdaderoX.tolist(), predichoY.tolist(), verdaderoY.tolist(), predichoZ.tolist(), verdaderoZ.tolist())
+        return (predichoX.tolist(), verdaderoX.tolist(), predichoY.tolist(), verdaderoY.tolist(), predichoZ.tolist(), verdaderoZ.tolist(), costoinicial.tolist(), costofinal.tolist(), mejora.tolist())

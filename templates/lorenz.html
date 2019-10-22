@@ -13,11 +13,37 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="{% url 'Principal' %}">Principal</a> 
+					<a href="{% url 'Principal' %}">Inicio</a> 
+					<i class="icon-angle-right"></i>
+					<a>Datos</a> 
+					<i class="icon-angle-right"></i>
+					<a>Generar</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="{% url 'Lorenz96' %}">Lorenz'96</a></li>
+				<li><a href="{% url 'Lorenz96' %}">Lorenz'96 I</a></li>
 			</ul>
+			<!-- icono ayuda -->
+			<div class="help">			
+					<i class="icon-lightbulb"><a class="trigger_popup_fricc">Ayuda</a></i>
+			</div>
+
+			<!-- ventana emergente de ayuda -->
+			<div class="hover_bkgr_fricc">
+    			<span class="helper"></span>
+    			<div>
+        			<div class="popupCloseButton">X</div>
+        			<h4>Ayuda</h4>
+        			<p align="justify">El modelo Lorenz'96 fue desarrollado por Edward Lorenz como un modelo matemático de laboratorio para estudiar cuestiones relacionadas con la dificultad de predicción del pronóstico meteorológico (simular el ambiente caótico de la atmósfera). Este modelo tiene la particularidad que solo utiliza en su forma estándar 40 variables las cuales tienen asociadas una serie temporal, representando esta el comportamiento de sistemas dinámicos caóticos. A efectos de investigación, este modelo es considerado como <b>"perfecto"</b>, es decir, no posee errores inherentes al modelado del sistema.</p><br>
+        			<p align="justify">Parámetros a tener en cuenta a la hora de generar los datos:<br><br>
+        			<i><b><u>Constante forzada (F):</u></b></i> fuerza externa, considerada como constante en tiempo y uniforme. Su valor determinara el tipo de solución (el ambiente caótico del modelo). Los valores recomendados son <b>entre 6 y 14.</b> Entre mas grande el valor, mas caótico sera el sistema generado.<br>
+        			<i><b><u>Cantidad de variables (N):</u></b></i> cantidad de variables que el modelo debe generar. El estándar del modelo son 40 variables, pero se recomienda un mínimo de <b>8</b> y un máximo de <b>100</b> (entre mas grande el nro. de variables, el tiempo de procesamiento será mayor). Sin embargo, se debe resaltar que de todas las variables generadas, solo se mostrara por pantalla la primera de ellas (pero se almacenaran todas). El nro. de variables también influye en la caoticidad del sistema.<br>
+        			<i><b><u>Observaciones a dibujar:</u></b></i> cantidad de puntos asociados a una variable que se desean plotear en la gráfica. Este número siempre debe ser menor que el <b>total de observaciones a generar</b>, y se recomiendan valores entre los <b>100</b> y <b>1000</b> puntos para que el comportamiento del modelo sea distinguible en la gráfica.<br>
+        			<i><b><u>Total de observaciones a generar:</u></b></i> número total de puntos (datos) que se desean generar por cada una de las variables especificadas. Se recomiendan un mínimo de <b>2000</b> puntos para que el modelo pueda funcionar correctamente. Entre mas grande sea el número de datos a generar, mayor sera el tiempo de procesamiento. Este valor debe ser siempre mayor que las <b>observaciones a dibujar</b>. (En caso de generar 2000 puntos y dibujar 200, solo se plotearan los primeros 200 valores, pero se almacenaran los 2000).<br>
+        			<i><b><u>Guardar datos:</u></b></i> los datos generados pueden ser almacenados en distintos datasets para ser utilizados posteriormente para el entrenamiento y validación de una RNN.<br><br>
+        			En la <i><b>Tabla de resultados</b></i>, se mostraran los valores obtenidos <b>(observaciones)</b> junto con el <b>tiempo</b> en el cual se produjeron.
+        			</p>
+  				</div>
+			</div>
 			
 			<!-- start: Formulario -->
 			<div class="row-fluid sortable">
@@ -27,7 +53,6 @@
 						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Lorenz'96 una escala</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<!-- Fin Cabeza Formulario -->
@@ -97,7 +122,6 @@
 						<h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Tabla de resultados</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<div class="box-content">
@@ -123,7 +147,7 @@
 						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Gráfica</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+
 						</div>
 					</div>
 					<!--grafica-->
@@ -148,6 +172,16 @@
 		<script type="text/javascript">	
 
       	window.onload = function(){
+
+      	 $(".trigger_popup_fricc").click(function(){
+       		$('.hover_bkgr_fricc').show();
+    	});
+    	$('.hover_bkgr_fricc').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
+    	$('.popupCloseButton').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
 
       	//Creacion de la tabla para mostrar los datos
       	$(document).ready(function() {

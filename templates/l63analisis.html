@@ -1,7 +1,7 @@
 {% extends 'basetemp.html' %}
 
 			{% block titulo %}
-			<title>Analisis estadistico</title>
+			<title>Análisis estadistico L'63</title>
 			{% endblock %}
 
 			{% block contenido %}
@@ -13,12 +13,43 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="{% url 'Principal' %}">Principal</a> 
+					<a href="{% url 'Principal' %}">Inicio</a> 
+					<i class="icon-angle-right"></i>
+					<a>Análisis</a> 
 					<i class="icon-angle-right"></i>
 				</li>
-				<li><a href="{% url 'AnalisisPredL63' %}">Predicciones L63</a></li>
+				<li><a href="{% url 'AnalisisPredL63' %}">Lorenz'63</a></li>
 			</ul>
 			
+			<!-- icono ayuda -->
+			<div class="help">			
+					<i class="icon-lightbulb"><a class="trigger_popup_fricc">Ayuda</a></i>
+			</div>	
+
+			<!-- ventana emergente de ayuda -->
+			<div class="hover_bkgr_fricc">
+    			<span class="helper"></span>
+    			<div>
+        			<div class="popupCloseButton">X</div>
+        			<h4>Ayuda</h4>
+        			<p align="justify">En esta sección es posible observar los resultados obtenidos al entrenar y validar una RNN con datos que fueron generados previamente con el modelo <b>Lorenz'63</b>.<br><br>
+        			En el listado figuran distintos dataset que almacenan los resultados obtenidos en cada experimento con una serie de metadatos que denotan los <b>parámetros</b> mas importantes utilizados en cada uno de ellos: <br><br>
+        			<i><b><u>Nombre:</u></b></i> Nombre del dataset. <br>
+        			<i><b><u>Fecha:</u></b></i> Momento en el cual fue creado y almacenado el dataset. <br>
+        			<i><b><u>Dataset:</u></b></i> Datos utilizados para el entrenamiento y validación de la red. <br>
+        			<i><b><u>Fn. de activación:</u></b></i> La función de activación calcula el estado de actividad de una neurona; transformando la entrada global, en un estado (o valor) de activación, cuyo rango normal va de (0 a 1) o de (-1 a 1). El 0 o -1 indican que una neurona está totalmente inactiva, en tanto que el 1 indica total actividad. Posibles funciones: <b>Linear, Sigmoid, Tanh </b>.<br>
+        			<i><b><u>Fn. de optimización:</u></b></i> Los algoritmos de optimización son los encargados de entrenar a la red, indicando que pesos de conexión entre las neuronas deben ser modificados, y la magnitud y dirección de dichas modificaciones. Posibles funciones: <b>Adam, SGD, RMSprop</b>.<br>
+        			<i><b><u>Fn. de perdida:</u></b></i> Al trabajar con modelos predictivos, se debe ser capaz de calcular el error existente entre lo que la red predice con los valores verdaderos que se manejan. La función que utilizada para computar ese error es la llamada <b>función de pérdida</b>. Diferentes funciones de perdida pueden devolver diferentes errores de la misma predicción, y tienen efectos considerables en el rendimiento del modelo. Posibles funciones: <b>MSE, MAE, MAPE</b>.<br>
+        			<i><b><u>Acción:</u></b></i> El botón <b>seleccionar</b> permite plotear los datos asociados al dataset seleccionado para poder visualizarlos en su sección correspondiente.<br><br>
+        			En lo referente a las métricas utilizadas, se tuvieron en cuenta <b>cuatro</b> de ellas: <br><br>
+        			<i><b><u>MAE (Mean Absolute Error):</u></b></i> Suma de las diferencias absolutas entre las predicciones y los valores verdaderos. Da una idea de cuan erróneas son las predicciones, pero no la dirección de las mismas. Entre más pequeño sea este valor, más correcta será la predicción.<br>
+        			<i><b><u>MSE (Mean Squared Error):</u></b></i> Mide la cantidad de error que hay entre dos conjuntos de datos, o dicho de otra manera, compara un valor predicho y un valor observado o conocido. <br>
+        			<i><b><u>RMSE (Root Mean Squared Error):</u></b></i> Desviación estándar de los errores de predicción. A diferencia de MAE, el RMSE es una medida de dispersión de los errores, que puede ser utilizada para determinar cuan concentrada esta la información en la línea de mejor ajuste.<br>
+        			<i><b><u>R°2 (R2 coefficent):</u></b></i> También llamado <b>coeficiente de determinación</b>, proporciona una indicación de la bondad de ajuste de un conjunto de predicciones respecto a los valores reales. El valor del mismo oscila entre 0 y 1. Entre más cerca del 1 se situé el valor obtenido, mayor será el ajuste del modelo a los datos analizados. De forma inversa, entre más cerca del 0 se encuentre, menos fiable será el modelo.
+        			</p>
+  				</div>
+			</div>
+
 			<!-- start: Formulario -->
 			<div class="row-fluid sortable">
 			{% csrf_token %}
@@ -28,7 +59,6 @@
 						<h2><i class="halflings-icon white align-justify"></i><span class="break"></span>Predicciones Lorenz'63 almacenadas en el sistema</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<div class="box-content">
@@ -64,7 +94,7 @@
                                         <td class="r2">{{ value.1.R2 }}</td-->
                                         <td>
                                             <div class='btn-group' id="btns-action" data-filename="{{ value.0 }}">
-                                              <button data-url="{% url 'graph_l63pred_dataset' %}" class="btn btn-primary" id="btnEjecutar" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Graficando">Graficar</button>
+                                              <button data-url="{% url 'graph_l63pred_dataset' %}" class="btn btn-primary" id="btnEjecutar" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Graficando">Seleccionar</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -85,7 +115,6 @@
 						<h2><i class="halflings-icon white edit"></i><span class="break"></span>Métricas</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<!-- Fin Cabeza Formulario -->
@@ -131,7 +160,6 @@
 						<h2><i class="halflings-icon white list-alt"></i><span class="break"></span>Gráfica</h2>
 						<div class="box-icon">
 							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
 						</div>
 					</div>
 					<!--grafica-->
@@ -158,6 +186,19 @@
 		{% block js %}
 
 		<script type="text/javascript">	
+
+			window.onload = function(){
+
+      	$(".trigger_popup_fricc").click(function(){
+       	$('.hover_bkgr_fricc').show();
+    	});
+    	$('.hover_bkgr_fricc').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
+    	$('.popupCloseButton').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
+
 			$(document).ready(function() {
 				$('#TableL2').dataTable({
     				"language": {
@@ -196,9 +237,9 @@
               						hoverable: {show: true}
               					},
               				};	
-              				var plot = $.plot($("#graph"), [{label:"Predicho X", data:data[0]},{label:"Observado X", data:data[1]}],options)
-              				var plot = $.plot($("#graph2"), [{label:"Predicho Y", data:data[2]},{label:"Observado Y", data:data[3]}],options)
-              				var plot = $.plot($("#graph3"), [{label:"Predicho Z", data:data[4]},{label:"Observado Z", data:data[5]}],options)
+              				var plot = $.plot($("#graph"), [{label:"Predicho X", data:data[1]},{label:"Observado X", data:data[0]}],options)
+              				var plot = $.plot($("#graph2"), [{label:"Predicho Y", data:data[3]},{label:"Observado Y", data:data[2]}],options)
+              				var plot = $.plot($("#graph3"), [{label:"Predicho Z", data:data[5]},{label:"Observado Z", data:data[4]}],options)
 
               				//Cargando tabla
               				$.each(data[6], function (index, value) {
@@ -217,5 +258,6 @@
 						})			    
 					})
 			})
+		}
   		</script>
 		{% endblock %}

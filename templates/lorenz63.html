@@ -13,11 +13,40 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="icon-home"></i>
-					<a href="{% url 'Principal' %}">Principal</a> 
+					<a href="{% url 'Principal' %}">Inicio</a> 
+					<i class="icon-angle-right"></i>
+					<a>Datos</a> 
+					<i class="icon-angle-right"></i>
+					<a>Generar</a> 
 					<i class="icon-angle-right"></i>
 				</li>
 				<li><a href="{% url 'Lorenz63' %}">Lorenz'63 </a></li>
 			</ul>
+			
+			<!-- icono ayuda -->
+			<div class="help">			
+					<i class="icon-lightbulb"><a class="trigger_popup_fricc">Ayuda</a></i>
+			</div>		
+
+
+			<!-- ventana emergente de ayuda -->
+			<div class="hover_bkgr_fricc">
+    			<span class="helper"></span>
+    			<div>
+        			<div class="popupCloseButton">X</div>
+        			<h4>Ayuda</h4>
+        			<p align="justify">Se tiene la hipótesis que en todo sistema caótico existe un punto de equilibrio, denominado <b>atractor</b>, donde el sistema se mantiene en un estado de reposo. Debido a la inestabilidad natural de estos sistemas, resulta imposible alcanzar dicho estado, sin embargo, si poseen una serie de estados denominados como de “equilibrio dinámico”. En estos estados dinámicos, donde el sistema se acerca a un atractor, otro atractor es creado bajo los efectos de fuerzas que son aplicadas al sistema. Este nuevo sistema de dos atractores es el llamado <b>Atractor de Lorenz</b> (o <b>Lorenz 63</b>), y se caracteriza por el hecho que existen <b>3 variables (X, Y, Z)</b> y sus respectivas ecuaciones que se encuentran asociadas e influenciadas por <b>3 valores constantes</b> propios del modelo (<b>Sigma, Rho, Beta</b>).</p><br>
+        			<p align="justify">Parámetros a tener en cuenta a la hora de generar los datos:<br><br>
+        			<i><b><u>Valor de Sigma (σ):</u></b></i> Valor constante que afecta directamente a la ecuación de la <b>variable X</b>. El modelo utiliza como estandar aconsejable un valor de <b>10</b>, pero puede ser modificado.<br>
+        			<i><b><u>Valor de Rho (ρ):</u></b></i> Valor constante que afecta directamente a la ecuación de la <b>variable Y</b>. El modelo utiliza como estandar aconsejable un valor de <b>28</b> pero puede ser modificado.<br>
+        			<i><b><u>Valor de Beta (β):</u></b></i> Valor constante que afecta directamente a la ecuación de la <b>variable Z</b>. El modelo utiliza como estandar aconsejable un valor de <b>8/3</b> pero puede ser modificado.<br>
+        			<i><b><u>Observaciones a dibujar:</u></b></i> cantidad de puntos asociados a una variable que se desean plotear en la gráfica. Este número siempre debe ser menor que el <b>total de observaciones a generar</b>, y se recomiendan valores entre los <b>100</b> y <b>1000</b> puntos para que el comportamiento del modelo sea distinguible en la gráfica.<br>
+        			<i><b><u>Total de observaciones a generar:</u></b></i> número total de puntos (datos) que se desean generar por cada una de las variables especificadas. Se recomiendan un mínimo de <b>2000</b> puntos para que el modelo pueda funcionar correctamente. Entre mas grande sea el número de datos a generar, mayor sera el tiempo de procesamiento. Este valor debe ser siempre mayor que las <b>observaciones a dibujar</b>. (En caso de generar 2000 puntos y dibujar 200, solo se plotearan los primeros 200 valores, pero se almacenaran los 2000).<br>
+        			<i><b><u>Guardar datos:</u></b></i> los datos generados pueden ser almacenados en distintos datasets para ser utilizados posteriormente para el entrenamiento y validación de una RNN.<br><br>
+        			En la <i><b>Tabla de resultados</b></i>, se mostraran los valores obtenidos <b>(X, Y, Z)</b> en cada variable junto con el <b>tiempo</b> en el cual se produjeron.<br>
+        			</p>
+  				</div>
+			</div>
 			
 			<!-- start: Formulario -->
 			<div class="row-fluid sortable">
@@ -157,6 +186,16 @@
 		<script type="text/javascript">
 
       	window.onload = function(){
+
+      	$(".trigger_popup_fricc").click(function(){
+       	$('.hover_bkgr_fricc').show();
+    	});
+    	$('.hover_bkgr_fricc').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
+    	$('.popupCloseButton').click(function(){
+        	$('.hover_bkgr_fricc').hide();
+    	});
 
       	//Creacion de la tabla para mostrar los datos
       	$(document).ready(function() {

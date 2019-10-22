@@ -4,7 +4,7 @@ class FormMultivar(forms.Form):
 	nombre = forms.CharField(
 		label="Nombre del dataset",
 		required=True, 
-		widget=forms.TextInput(attrs={
+		widget=forms.HiddenInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor',
 			'id': 'name',
@@ -15,7 +15,7 @@ class FormMultivar(forms.Form):
 		initial="15",
 		required=True,
 		label="Numero de épocas", 
-		widget=forms.TextInput(attrs={
+		widget=forms.HiddenInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor',
 			'id': 'epoch',
@@ -26,7 +26,7 @@ class FormMultivar(forms.Form):
 		initial="256",
 		required=True,
 		label="Tamaño por lotes (Batch-size):", 
-		widget=forms.TextInput(attrs={
+		widget=forms.HiddenInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor',
 			'id': 'window',
@@ -37,7 +37,7 @@ class FormMultivar(forms.Form):
 		initial="0.2",
 		required=True,
 		label="Dropout (evitar sobreajuste)", 
-		widget=forms.TextInput(attrs={
+		widget=forms.HiddenInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor',
 			'id': 'drop',
@@ -48,7 +48,7 @@ class FormMultivar(forms.Form):
 		initial="0.001",
 		required=True,
 		label="Taza de aprendizaje", 
-		widget=forms.TextInput(attrs={
+		widget=forms.HiddenInput(attrs={
 			'class':'form-control ',
 			'placeholder': 'Valor',
 			'id':'rate',
@@ -64,7 +64,7 @@ class FormMultivar(forms.Form):
 		initial='linear',
 		#widget=forms.Select
 		#(attrs={'id':'activation', 'class':'form-control '}), 
-		widget=forms.RadioSelect(attrs={'id':'activation'}),
+		widget=forms.HiddenInput(attrs={'id':'activation'}),
 		choices=ACTIVATION, 
 		required=True, 
 		label='Función de activación',
@@ -78,7 +78,7 @@ class FormMultivar(forms.Form):
 		initial='adam',
 		#widget=forms.Select
 		#(attrs={'id':'optimization', 'class':'form-control '}),
-		widget=forms.RadioSelect(attrs={'id':'optimization'}), 
+		widget=forms.HiddenInput(attrs={'id':'optimization'}), 
 		choices=OPTIMIZATION, 
 		required=True, 
 		label='Algoritmo de optimización',
@@ -92,7 +92,7 @@ class FormMultivar(forms.Form):
 		initial='mse',
 		#widget=forms.Select
 		#(attrs={'id':'loss', 'class':'form-control '}), 
-		widget=forms.RadioSelect(attrs={'id':'loss'}),
+		widget=forms.HiddenInput(attrs={'id':'loss'}),
 		choices=LOSS, 
 		required=True, 
 		label='Función de perdida',
